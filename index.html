@@ -463,8 +463,12 @@ svg{max-width:100% !important;height:auto !important;}
       input.value = '';
       renderWeeklyRoles();
       setTimeout(() => {
-        const newInput = document.getElementById('oppInput' + roleId);
-        if(newInput) newInput.focus();
+        if(role.opps.length >= 3) {
+          document.getElementById('weeklyRoleInput').focus();
+        } else {
+          const newInput = document.getElementById('oppInput' + roleId);
+          if(newInput) newInput.focus();
+        }
       }, 0);
     }
   };

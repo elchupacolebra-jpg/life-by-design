@@ -366,8 +366,8 @@ svg{max-width:100% !important;height:auto !important;}
     const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `
       <div class="card-item">
         <span class="badge">${i+1}</span>
-        <span style="flex:1;font-size:14px;color:var(--text)">${item}</span>
-        <button onclick="newRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;">✕</button>
+        <span style="flex:1;min-width:0;font-size:14px;color:var(--text)">${item}</span>
+        <button onclick="newRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;flex-shrink:0;">✕</button>
       </div>
     `).join('');
     document.getElementById('newList').innerHTML = html;
@@ -407,7 +407,7 @@ svg{max-width:100% !important;height:auto !important;}
       const html = nightlyData.wellDone.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one win</p>' : nightlyData.wellDone.map((item, i) => `
         <div class="card-item">
           <span class="badge">${i+1}</span>
-          <span style="flex:1;font-size:14px;color:var(--text)">${item}</span>
+          <span style="flex:1;min-width:0;font-size:14px;color:var(--text)">${item}</span>
           <button onclick="nightlyRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;">✕</button>
         </div>
       `).join('');
@@ -594,13 +594,13 @@ svg{max-width:100% !important;height:auto !important;}
     } else if(e.type === 'nightly') {
       document.getElementById('detailTitle').textContent = 'Nightly Recap';
       document.getElementById('detailContent').innerHTML = `
-        <div style="margin-bottom:24px;"><div class="eyebrow">Things I did well today</div><div class="card">${e.wellDone.map((item, i) => `<div class="card-item"><span class="badge">${i+1}</span><span style="flex:1;font-size:14px;color:var(--text)">${item}</span></div>`).join('')}</div></div>
+        <div style="margin-bottom:24px;"><div class="eyebrow">Things I did well today</div><div class="card">${e.wellDone.map((item, i) => `<div class="card-item"><span class="badge">${i+1}</span><span style="flex:1;min-width:0;font-size:14px;color:var(--text)">${item}</span></div>`).join('')}</div></div>
         <div><div class="eyebrow">Daily summary</div><div class="card"><p style="padding:14px 16px;margin:0;color:var(--text);line-height:1.7;">${e.summary}</p></div></div>
       `;
     } else {
       document.getElementById('detailTitle').textContent = e.date;
       const sections = [{id:'top10', label:'Top 10'}, {id:'excites', label:'What excites me?'}, {id:'whoami', label:'Who am I?'}, {id:'opps', label:'Greatest opportunities'}];
-      const html = sections.map(s => {const items = e[s.id]; if(!items || items.length === 0) return ''; return `<div style="margin-bottom:24px;"><div class="eyebrow">${s.label}</div><div class="card">${items.map((item, i) => `<div class="card-item"><span class="badge">${i+1}</span><span style="flex:1;font-size:14px;color:var(--text)">${item}</span></div>`).join('')}</div></div>`;}).join('');
+      const html = sections.map(s => {const items = e[s.id]; if(!items || items.length === 0) return ''; return `<div style="margin-bottom:24px;"><div class="eyebrow">${s.label}</div><div class="card">${items.map((item, i) => `<div class="card-item"><span class="badge">${i+1}</span><span style="flex:1;min-width:0;font-size:14px;color:var(--text)">${item}</span></div>`).join('')}</div></div>`;}).join('');
       document.getElementById('detailContent').innerHTML = html;
     }
   }

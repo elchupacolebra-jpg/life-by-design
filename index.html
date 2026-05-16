@@ -227,6 +227,7 @@ svg{max-width:100% !important;height:auto !important;}
   let nightlyStep = 0;
   window.nightlyData = {wellDone:[],summary:""};
   let weeklyRoles = [];
+  let weeklyEditingRoleId = null;
   let currentFilter = 'all';
 
   const QS = [
@@ -442,10 +443,15 @@ svg{max-width:100% !important;height:auto !important;}
   window.addWeeklyRole = function() {
     const val = document.getElementById('weeklyRoleInput').value.trim();
     if(!val) return;
-    weeklyRoles.push({id: Date.now(), name: val, opps: []});
+    const newRole = {id: Date.now(), name: val, opps: []};
+    weeklyRoles.push(newRole);
+    weeklyEditingRoleId = newRole.id;
     document.getElementById('weeklyRoleInput').value = '';
     renderWeeklyRoles();
-    document.getElementById('weeklyRoleInput').focus();
+    setTimeout(() => {
+      const oppInput = document.getElementById('oppInput' + newRole.id);
+      if(oppInput) oppInput.focus();
+    }, 0);
   };
 
   window.removeWeeklyRole = function(id) {
@@ -461,14 +467,13 @@ svg{max-width:100% !important;height:auto !important;}
     if(role && role.opps.length < 3) {
       role.opps.push({id: Date.now(), text: val, checked: false});
       input.value = '';
+      if(role.opps.length >= 3) {
+        weeklyEditingRoleId = null;
+      }
       renderWeeklyRoles();
       setTimeout(() => {
-        if(role.opps.length >= 3) {
-          document.getElementById('weeklyRoleInput').focus();
-        } else {
-          const newInput = document.getElementById('oppInput' + roleId);
-          if(newInput) newInput.focus();
-        }
+        const roleInput = document.getElementById('weeklyRoleInput');
+        if(roleInput) roleInput.focus();
       }, 0);
     }
   };
@@ -491,12 +496,14 @@ svg{max-width:100% !important;height:auto !important;}
   };
 
   function renderWeeklyRoles() {
-    if(weeklyRoles.length === 0) {
+    const rolesToShow = weeklyEditingRoleId ? weeklyRoles.filter(r => r.id === weeklyEditingRoleId) : [];
+    
+    if(weeklyEditingRoleId && rolesToShow.length === 0) {
       document.getElementById('weeklyRoles').innerHTML = '';
       return;
     }
     
-    const html = weeklyRoles.map(role => `
+    const html = rolesToShow.map(role => `
       <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;">
           <h3 style="font-size:16px;font-weight:500;color:var(--text);margin:0;">${role.name}</h3>
@@ -516,7 +523,7 @@ svg{max-width:100% !important;height:auto !important;}
             <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;font-size:13px;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
             <button onclick="addOppToRole(${role.id})" style="width:auto;padding:6px 12px;font-size:13px;">Add</button>
           </div>
-        ` : `<p style="font-size:12px;color:var(--text3);margin:0;">Max 3 opportunities per role</p>`}
+        ` : `<p style="font-size:12px;color:var(--text3);margin:0;">All opportunities added ✓</p>`}
       </div>
     `).join('');
     document.getElementById('weeklyRoles').innerHTML = html;
@@ -526,6 +533,7 @@ svg{max-width:100% !important;height:auto !important;}
     if(weeklyRoles.length === 0) {alert('Add at least one role'); return;}
     const hasOpps = weeklyRoles.some(r => r.opps.length > 0);
     if(!hasOpps) {alert('Add at least one opportunity'); return;}
+    weeklyEditingRoleId = null;
     const now = new Date();
     const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'weekly', roles: weeklyRoles};
     saveEntry(entry);

@@ -363,13 +363,7 @@ svg{max-width:100% !important;height:auto !important;}
     document.getElementById('newInput').focus();
     
     const items = newCurrent[q.id];
-    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `
-      <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr 30px;gap:10px;align-items:start;">
-        <span style="font-size:11px;color:var(--text3);">${i+1}</span>
-        <div style="font-size:14px;color:var(--text);word-wrap:break-word;overflow-wrap:break-word;">${item}</div>
-        <button onclick="newRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;">✕</button>
-      </div>
-    `).join('');
+    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);"><strong>${i+1}.</strong> ${item}</p>`).join('');
     document.getElementById('newList').innerHTML = html;
     document.getElementById('newNextBtn').textContent = newStep === QS.length - 1 ? 'Submit entry ✓' : 'Next: ' + QS[newStep + 1].label + ' →';
   }

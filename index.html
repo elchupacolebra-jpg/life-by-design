@@ -181,6 +181,13 @@ svg{max-width:100% !important;height:auto !important;}
       <button onclick="filterEntries('nightly')" id="filterNightly" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">NIGHTLY</button>
       <button onclick="filterEntries('weekly')" id="filterWeekly" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">WEEKLY</button>
     </div>
+    <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="selectAllEntries" onchange="toggleSelectAll()" style="width:18px;height:18px;cursor:pointer;" />
+        <span style="font-size:13px;color:var(--text);">Select All</span>
+      </label>
+      <button id="deleteSelectedBtn" onclick="deleteSelected()" style="flex:1;background:#d93535;display:none;">Delete Selected</button>
+    </div>
     <div id="entriesList" class="card"></div>
   </div>
 
@@ -548,6 +555,49 @@ svg{max-width:100% !important;height:auto !important;}
     showView('home');
   };
 
+  let selectedEntries = new Set();
+
+  window.toggleSelectAll = function() {
+    const isChecked = document.getElementById('selectAllEntries').checked;
+    const filtered = getFilteredEntries();
+    selectedEntries.clear();
+    if(isChecked) {
+      filtered.forEach(e => selectedEntries.add(e.id));
+    }
+    renderList();
+    updateDeleteButton();
+  };
+
+  window.toggleEntrySelection = function(id) {
+    if(selectedEntries.has(id)) {
+      selectedEntries.delete(id);
+    } else {
+      selectedEntries.add(id);
+    }
+    document.getElementById('selectAllEntries').checked = false;
+    updateDeleteButton();
+  };
+
+  function updateDeleteButton() {
+    const btn = document.getElementById('deleteSelectedBtn');
+    if(selectedEntries.size > 0) {
+      btn.style.display = '';
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  window.deleteSelected = function() {
+    if(selectedEntries.size === 0) return;
+    if(!confirm(`Delete ${selectedEntries.size} entry/entries? This cannot be undone.`)) return;
+    selectedEntries.forEach(id => {
+      deleteEntryFromDB(id);
+    });
+    selectedEntries.clear();
+    document.getElementById('selectAllEntries').checked = false;
+    updateDeleteButton();
+  };
+
   window.filterEntries = function(type) {
     currentFilter = type;
     ['filterAll', 'filterRegular', 'filterNightly', 'filterWeekly'].forEach(id => {document.getElementById(id).style.opacity = '0.5';});
@@ -567,15 +617,17 @@ svg{max-width:100% !important;height:auto !important;}
   function renderList() {
     const filtered = getFilteredEntries();
     const html = filtered.length === 0 ? '<div class="card-item"><p style="margin:0;text-align:center;width:100%;color:var(--text3);">No entries</p></div>' : filtered.map((e) => `
-      <div class="card-item" onclick="selectEntry('${e.id}')" style="cursor:pointer;">
-        <span style="flex:1;text-align:left;">
+      <div class="card-item" style="cursor:pointer;">
+        <input type="checkbox" ${selectedEntries.has(e.id) ? 'checked' : ''} onchange="event.stopPropagation(); toggleEntrySelection('${e.id}'); renderList();" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;" />
+        <span style="flex:1;text-align:left;" onclick="selectEntry('${e.id}')">
           <p style="margin:0;font-weight:500;color:var(--text)">${e.date}</p>
           <p style="margin:0;font-size:12px;color:var(--text3);margin-top:1px;">${e.type === 'nightly' ? 'Nightly Recap' : e.type === 'weekly' ? 'Weekly Planning' : (e.top10.length + e.excites.length + e.whoami.length + e.opps.length) + ' answers'}</p>
         </span>
-        <p style="margin:0;color:var(--text3);">›</p>
+        <p style="margin:0;color:var(--text3);" onclick="selectEntry('${e.id}')">›</p>
       </div>
     `).join('');
     document.getElementById('entriesList').innerHTML = html;
+    updateDeleteButton();
   }
 
   window.selectEntry = function(id) {

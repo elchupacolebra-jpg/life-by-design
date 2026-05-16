@@ -496,36 +496,50 @@ svg{max-width:100% !important;height:auto !important;}
   };
 
   function renderWeeklyRoles() {
-    const rolesToShow = weeklyEditingRoleId ? weeklyRoles.filter(r => r.id === weeklyEditingRoleId) : [];
+    const completedRoles = weeklyRoles.filter(r => r.id !== weeklyEditingRoleId);
+    const editingRole = weeklyEditingRoleId ? weeklyRoles.find(r => r.id === weeklyEditingRoleId) : null;
     
-    if(weeklyEditingRoleId && rolesToShow.length === 0) {
-      document.getElementById('weeklyRoles').innerHTML = '';
-      return;
+    let html = '';
+    
+    // Show all completed roles (read-only)
+    if(completedRoles.length > 0) {
+      html += '<div style="margin-bottom:20px;"><p style="font-size:12px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;">✓ Completed</p>';
+      html += completedRoles.map(role => `
+        <div style="margin-bottom:12px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);">
+          <h4 style="font-size:14px;font-weight:500;color:var(--text);margin:0 0 8px;">${role.name}</h4>
+          <div>${role.opps.map(o => `<div style="font-size:13px;color:var(--text2);margin:4px 0;">• ${o.text}</div>`).join('')}</div>
+        </div>
+      `).join('');
+      html += '</div>';
     }
     
-    const html = rolesToShow.map(role => `
-      <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;">
-          <h3 style="font-size:16px;font-weight:500;color:var(--text);margin:0;">${role.name}</h3>
-          <button onclick="removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:6px;right:10px;">✕</button>
-        </div>
-        <div style="margin-bottom:12px;">
-          ${role.opps.map(opp => `
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:6px 0;">
-              <input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;" />
-              <span style="font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};flex:1;">${opp.text}</span>
-              <button onclick="removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;">✕</button>
-            </div>
-          `).join('')}
-        </div>
-        ${role.opps.length < 3 ? `
-          <div style="display:flex;gap:6px;">
-            <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;font-size:13px;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
-            <button onclick="addOppToRole(${role.id})" style="width:auto;padding:6px 12px;font-size:13px;">Add</button>
+    // Show editing role
+    if(editingRole) {
+      html += `
+        <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:2px solid var(--text);border-radius:var(--rl);position:relative;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;">
+            <h3 style="font-size:16px;font-weight:500;color:var(--text);margin:0;">${editingRole.name}</h3>
+            <button onclick="removeWeeklyRole(${editingRole.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:6px;right:10px;">✕</button>
           </div>
-        ` : `<p style="font-size:12px;color:var(--text3);margin:0;">All opportunities added ✓</p>`}
-      </div>
-    `).join('');
+          <div style="margin-bottom:12px;">
+            ${editingRole.opps.map(opp => `
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:6px 0;">
+                <input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${editingRole.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;" />
+                <span style="font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};flex:1;">${opp.text}</span>
+                <button onclick="removeOppFromRole(${editingRole.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;">✕</button>
+              </div>
+            `).join('')}
+          </div>
+          ${editingRole.opps.length < 3 ? `
+            <div style="display:flex;gap:6px;">
+              <input id="oppInput${editingRole.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;font-size:13px;" onKeyDown="if(event.key==='Enter')addOppToRole(${editingRole.id})" />
+              <button onclick="addOppToRole(${editingRole.id})" style="width:auto;padding:6px 12px;font-size:13px;">Add</button>
+            </div>
+          ` : `<p style="font-size:12px;color:var(--text3);margin:0;">All opportunities added ✓</p>`}
+        </div>
+      `;
+    }
+    
     document.getElementById('weeklyRoles').innerHTML = html;
   }
 

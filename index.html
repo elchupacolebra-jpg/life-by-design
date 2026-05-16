@@ -6,7 +6,6 @@
 <title>Life by Design</title>
 <style>
 :root{--bg:#FAFAF8;--surface:#FFF;--border:rgba(0,0,0,.09);--border-strong:rgba(0,0,0,.18);--text:#1a1a1a;--text2:#666;--text3:#999;--danger:#d93535;--rm:8px;--rl:12px;}
-@media(prefers-color-scheme:dark){:root{--bg:#111110;--surface:#1c1c1a;--border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.18);--text:#f0ede8;--text2:#999;--text3:#666;--danger:#f07070;}}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;}
 input[type="text"],textarea{width:100%;padding:10px 14px;border-radius:var(--rm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:14px;outline:none;font-family:inherit;margin-bottom:10px;}
@@ -309,8 +308,10 @@ p{color:var(--text2);margin:10px 0;line-height:1.6;}
     });
   }
 
-  function goBack() {showView(previousView === 'home' ? 'home' : previousView);}
-  function goHome() {showView('home');}
+  window.goBack = function() {showView(previousView === 'home' ? 'home' : previousView);};
+  window.goHome = function() {showView('home');};
+  const goBack = window.goBack;
+  const goHome = window.goHome;
 
   window.showView = function(name) {
     const currentView = Array.from(document.querySelectorAll('.box.active'))[0]?.id || 'home';

@@ -8,7 +8,7 @@
 :root{--bg:#FAFAF8;--surface:#FFF;--border:rgba(0,0,0,.09);--border-strong:rgba(0,0,0,.18);--text:#1a1a1a;--text2:#666;--text3:#999;--danger:#d93535;--rm:8px;--rl:12px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;}
-input[type="text"],textarea{width:100%;padding:10px 14px;border-radius:var(--rm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:14px;outline:none;font-family:inherit;margin-bottom:10px;text-transform:capitalize;}
+input[type="text"],textarea{width:100%;padding:10px 14px;border-radius:var(--rm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:14px;outline:none;font-family:inherit;margin-bottom:10px;}
 input[type="text"]:focus,textarea:focus{border-color:var(--text);}
 textarea{resize:vertical;line-height:1.6;min-height:100px;}
 button{padding:12px 20px;border:none;background:#000;color:#fff !important;border-radius:var(--rm);font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px;width:100%;transition:opacity .15s;text-transform:uppercase;letter-spacing:0.05em;}
@@ -25,6 +25,7 @@ p{color:var(--text2);margin:10px 0;line-height:1.6;}
 .eyebrow{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:600;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin:1rem 0;}
 .card-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);}
+.card-item span:not(.badge){word-break:break-word;overflow-wrap:break-word;}
 .card-item:last-child{border-bottom:none;}
 .badge{font-size:11px;font-weight:500;color:var(--text3);min-width:20px;text-align:right;}
 .progress{height:2px;background:var(--border);border-radius:1px;margin-bottom:2rem;position:relative;overflow:hidden;}
@@ -373,7 +374,7 @@ svg{max-width:100% !important;height:auto !important;}
     document.getElementById('newNextBtn').textContent = newStep === QS.length - 1 ? 'Submit entry ✓' : 'Next: ' + QS[newStep + 1].label + ' →';
   }
 
-  window.newAdd = function() {const val = document.getElementById('newInput').value.trim(); if(!val) return; const q = QS[newStep]; if(q.max && newCurrent[q.id].length >= q.max) return; newCurrent[q.id].push(val); renderNewQuestion();};
+  window.newAdd = function() {const val = document.getElementById('newInput').value.trim(); if(!val) return; const q = QS[newStep]; if(q.max && newCurrent[q.id].length >= q.max) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); newCurrent[q.id].push(cap); renderNewQuestion();};
   window.newRemove = function(i) {const q = QS[newStep]; newCurrent[q.id].splice(i, 1); renderNewQuestion();};
   window.newNext = function() {
     const q = QS[newStep];
@@ -425,7 +426,7 @@ svg{max-width:100% !important;height:auto !important;}
     }
   }
 
-  window.nightlyAdd = function() {const val = document.getElementById('nightlyInput').value.trim(); if(!val) return; nightlyData.wellDone.push(val); renderNightlyQuestion();};
+  window.nightlyAdd = function() {const val = document.getElementById('nightlyInput').value.trim(); if(!val) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); nightlyData.wellDone.push(cap); renderNightlyQuestion();};
   window.nightlyRemove = function(i) {nightlyData.wellDone.splice(i, 1); renderNightlyQuestion();};
   window.nightlyNext = function() {
     if(nightlyStep === 0) {

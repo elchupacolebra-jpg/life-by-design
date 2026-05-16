@@ -462,7 +462,10 @@ svg{max-width:100% !important;height:auto !important;}
       role.opps.push({id: Date.now(), text: val, checked: false});
       input.value = '';
       renderWeeklyRoles();
-      input.focus();
+      setTimeout(() => {
+        const newInput = document.getElementById('oppInput' + roleId);
+        if(newInput) newInput.focus();
+      }, 0);
     }
   };
 

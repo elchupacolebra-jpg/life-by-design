@@ -513,9 +513,9 @@ svg{max-width:100% !important;height:auto !important;}
         <div style="margin-bottom:12px;">
           ${role.opps.map((opp, i) => `<p style="margin:0;padding:6px 0;font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};"><input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;margin-right:8px;" />${opp.text}<button onclick="removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;margin-left:8px;">✕</button></p>`).join('')}
         </div>
-        <div style="display:flex;gap:6px;">
-          <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;font-size:13px;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
-          <button onclick="addOppToRole(${role.id})" style="width:auto;padding:6px 12px;font-size:13px;">ADD</button>
+        <div style="display:flex;gap:8px;margin-bottom:0;">
+          <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
+          <button onclick="addOppToRole(${role.id})" style="width:auto;padding:8px 12px;">Add</button>
         </div>
       </div>
     `).join('');

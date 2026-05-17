@@ -506,10 +506,10 @@ svg{max-width:100% !important;height:auto !important;}
     }
     
     const html = weeklyRoles.map(role => `
-      <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;cursor:pointer;" onclick="weeklyEditingRoleId = ${role.id}; renderWeeklyRoles(); setTimeout(() => { const inp = document.getElementById('oppInput${role.id}'); if(inp) inp.focus(); }, 0);">
+      <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;">
-          <h3 style="font-size:16px;font-weight:500;color:var(--text);margin:0;">${role.name}</h3>
-          <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:6px;right:10px;">✕</button>
+          <h3 style="font-size:16px;font-weight:500;color:var(--text);margin:0;cursor:pointer;" onclick="weeklyEditingRoleId = ${role.id}; renderWeeklyRoles(); setTimeout(() => { document.getElementById('oppInput${role.id}')?.focus(); }, 100);">${role.name}</h3>
+          <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;">✕</button>
         </div>
         <div style="margin-bottom:12px;">
           ${role.opps.map((opp, i) => `<p style="margin:0;padding:6px 0;font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};"><input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="event.stopPropagation(); toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;margin-right:8px;" />${opp.text}<button onclick="event.stopPropagation(); removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;margin-left:8px;">✕</button></p>`).join('')}
@@ -519,7 +519,7 @@ svg{max-width:100% !important;height:auto !important;}
             <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;font-size:13px;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" onclick="event.stopPropagation();" />
             <button onclick="event.stopPropagation(); addOppToRole(${role.id})" style="width:auto;padding:6px 12px;font-size:13px;">Add</button>
           </div>
-        ` : `<p style="font-size:12px;color:var(--text3);margin:0;cursor:pointer;text-decoration:underline;">Click to add${role.opps.length > 0 ? ' more' : ''} opportunities</p>`}
+        ` : `<p style="font-size:12px;color:var(--text3);margin:0;cursor:pointer;text-decoration:underline;" onclick="event.stopPropagation(); weeklyEditingRoleId = ${role.id}; renderWeeklyRoles(); setTimeout(() => { document.getElementById('oppInput${role.id}')?.focus(); }, 100);">Click to add${role.opps.length > 0 ? ' more' : ''} opportunities</p>`}
       </div>
     `).join('');
     document.getElementById('weeklyRoles').innerHTML = html;

@@ -507,7 +507,7 @@ svg{max-width:100% !important;height:auto !important;}
     const html = weeklyRoles.map(role => `
       <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
         <div style="margin-bottom:12px;position:relative;">
-          <p style="font-size:16px;font-weight:500;color:var(--text);margin:0;padding-right:28px;">${role.name}</p>
+          <p style="font-size:16px;font-weight:500;color:var(--text);margin:0;padding-right:28px;text-align:left;">${role.name}</p>
           <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:0;right:0;">✕</button>
         </div>
         <div style="margin-bottom:12px;">

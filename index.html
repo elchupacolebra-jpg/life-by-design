@@ -154,7 +154,7 @@ svg{max-width:100% !important;height:auto !important;}
     </div>
     <div class="eyebrow">Weekly Planning</div>
     <h2 style="margin-bottom:0.5rem;">Life Roles</h2>
-    <p class="sub">Add roles and 2-3 biggest opportunities for each</p>
+    <p class="sub" style="text-align:left;">Add roles and 2-3 biggest opportunities for each</p>
     
     <div style="display:flex;gap:8px;margin-bottom:20px;">
       <input id="weeklyRoleInput" type="text" placeholder="e.g. Father, Manager, Entrepreneur..." onKeyDown="if(event.key==='Enter' && this.value.trim())addWeeklyRole()" />
@@ -506,10 +506,10 @@ svg{max-width:100% !important;height:auto !important;}
     
     const html = weeklyRoles.map(role => `
       <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
-        <p style="font-size:16px;font-weight:500;color:var(--text);margin:0 0 12px;">
-          ${role.name}
-          <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;float:right;">✕</button>
-        </p>
+        <div style="margin-bottom:12px;position:relative;">
+          <p style="font-size:16px;font-weight:500;color:var(--text);margin:0;padding-right:28px;">${role.name}</p>
+          <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:0;right:0;">✕</button>
+        </div>
         <div style="margin-bottom:12px;">
           ${role.opps.map((opp, i) => `<p style="margin:0;padding:6px 0;font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};"><input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;margin-right:8px;" />${opp.text}<button onclick="removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;margin-left:8px;">✕</button></p>`).join('')}
         </div>

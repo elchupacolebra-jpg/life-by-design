@@ -104,7 +104,6 @@ svg{max-width:100% !important;height:auto !important;}
     <button onclick="showView('new')">New Entry</button>
     <button onclick="showView('nightly')">Nightly Recap</button>
     <button onclick="showView('weekly')">Weekly Planning</button>
-    <button onclick="showView('list')">Top 10 Rankings</button>
     <button onclick="window.open('https://open.spotify.com/playlist/2sujKBUu9fV4V3HeonG1E7?si=270b5510e90243f1','_blank')" style="margin-bottom:1rem;">Priming Meditation</button>
     
     <p onclick="showView('list')" style="font-size:11px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin:0;">View Answers</p>
@@ -462,7 +461,12 @@ svg{max-width:100% !important;height:auto !important;}
   };
 
   window.addOppToRole = function(roleId) {
+    roleId = parseInt(roleId);
     const input = document.getElementById('oppInput' + roleId);
+    if(!input) {
+      console.error('Input not found for roleId:', roleId);
+      return;
+    }
     const val = input.value.trim();
     if(!val) return;
     const role = weeklyRoles.find(r => r.id === roleId);
@@ -471,8 +475,9 @@ svg{max-width:100% !important;height:auto !important;}
       input.value = '';
       renderWeeklyRoles();
       setTimeout(() => {
-        document.getElementById('oppInput' + roleId)?.focus();
-      }, 0);
+        const newInput = document.getElementById('oppInput' + roleId);
+        if(newInput) newInput.focus();
+      }, 50);
     }
   };
 

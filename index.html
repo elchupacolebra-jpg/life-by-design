@@ -667,11 +667,11 @@ svg{max-width:100% !important;height:auto !important;}
         if(e.roles && e.roles.length > 0) {
           e.roles.forEach((role, roleIdx) => {
             html += '<tr>';
-            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + '<button onclick="removeDetailRole(' + roleIdx + ')" style="background:none;border:none;color:var(--text3);cursor:pointer;margin-left:8px;">✕</button></td>';
+            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + ' <button onclick="removeDetailRole(' + roleIdx + ')" style="background:none;border:none;color:var(--text);cursor:pointer;margin-left:12px;font-weight:bold;">✕</button></td>';
             html += '<td style="padding:14px;border:1px solid var(--border);">';
             if(role.opps && role.opps.length > 0) {
               role.opps.forEach((opp, oppIdx) => {
-                html += '<p style="margin:6px 0;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' onchange="toggleDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="margin-right:8px;" /><span>' + opp.text + '</span><button onclick="removeDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="background:none;border:none;color:var(--text3);cursor:pointer;margin-left:8px;font-size:12px;">✕</button></p>';
+                html += '<p style="margin:6px 0;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' onchange="toggleDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="margin-right:8px;" /><span>' + opp.text + '</span> <button onclick="removeDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="background:none;border:none;color:var(--text);cursor:pointer;margin-left:8px;font-weight:bold;font-size:16px;">✕</button></p>';
               });
             }
             html += '<input type="text" id="oppInput' + roleIdx + '" placeholder="Add opportunity..." style="width:100%;padding:6px;margin-top:6px;" onKeyDown="if(event.key===\'Enter\')addDetailOpp(' + roleIdx + ')" /><button onclick="addDetailOpp(' + roleIdx + ')" style="padding:4px 8px;font-size:12px;margin-top:4px;">Add</button>';

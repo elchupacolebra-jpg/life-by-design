@@ -644,6 +644,8 @@ svg{max-width:100% !important;height:auto !important;}
     showView('detail');
   };
 
+  let isEditingDetail = false;
+
   function renderDetail() {
     const e = selected;
     if(!e) {
@@ -653,28 +655,56 @@ svg{max-width:100% !important;height:auto !important;}
       return;
     }
     console.log('Rendering detail for entry:', e);
+    
     if(e.type === 'weekly') {
       document.getElementById('detailTitle').textContent = 'Weekly Planning';
-      let html = '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';
-      html += '<thead><tr style="background:var(--border);"><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Role</th><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Biggest Opportunities</th></tr></thead>';
-      html += '<tbody>';
-      if(e.roles && e.roles.length > 0) {
-        e.roles.forEach(role => {
-          html += '<tr>';
-          html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + '</td>';
-          html += '<td style="padding:14px;border:1px solid var(--border);">';
-          if(role.opps && role.opps.length > 0) {
-            role.opps.forEach(opp => {
-              html += '<p style="margin:6px 0;font-size:13px;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' disabled style="cursor:not-allowed;width:16px;height:16px;margin-right:8px;" /><span style="color:var(--text);text-decoration:' + (opp.checked ? 'line-through' : 'none') + ';opacity:' + (opp.checked ? '0.5' : '1') + ';">' + opp.text + '</span></p>';
-            });
-          } else {
-            html += '<p style="color:var(--text3);margin:0;">—</p>';
-          }
-          html += '</td></tr>';
-        });
+      if(isEditingDetail) {
+        // Editable mode
+        let html = '<div style="margin-bottom:20px;"><label>Add new role: <input id="newRoleInput" type="text" placeholder="e.g., Father, Manager..." style="flex:1;margin:0 8px;padding:8px;" /><button onclick="addDetailRole()" style="padding:8px 12px;">Add Role</button></label></div>';
+        html += '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';
+        html += '<thead><tr style="background:var(--border);"><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;border:1px solid var(--border);">Role</th><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;border:1px solid var(--border);">Opportunities</th><th style="width:40px;padding:12px;"></th></tr></thead>';
+        html += '<tbody>';
+        if(e.roles && e.roles.length > 0) {
+          e.roles.forEach((role, roleIdx) => {
+            html += '<tr>';
+            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + '<button onclick="removeDetailRole(' + roleIdx + ')" style="background:none;border:none;color:var(--text3);cursor:pointer;margin-left:8px;">✕</button></td>';
+            html += '<td style="padding:14px;border:1px solid var(--border);">';
+            if(role.opps && role.opps.length > 0) {
+              role.opps.forEach((opp, oppIdx) => {
+                html += '<p style="margin:6px 0;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' onchange="toggleDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="margin-right:8px;" /><span>' + opp.text + '</span><button onclick="removeDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="background:none;border:none;color:var(--text3);cursor:pointer;margin-left:8px;font-size:12px;">✕</button></p>';
+              });
+            }
+            html += '<input type="text" id="oppInput' + roleIdx + '" placeholder="Add opportunity..." style="width:100%;padding:6px;margin-top:6px;" onKeyDown="if(event.key===\'Enter\')addDetailOpp(' + roleIdx + ')" /><button onclick="addDetailOpp(' + roleIdx + ')" style="padding:4px 8px;font-size:12px;margin-top:4px;">Add</button>';
+            html += '</td>';
+            html += '<td></td></tr>';
+          });
+        }
+        html += '</tbody></table>';
+        document.getElementById('detailContent').innerHTML = html;
+      } else {
+        // Read-only mode
+        let html = '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';
+        html += '<thead><tr style="background:var(--border);"><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Role</th><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Biggest Opportunities</th></tr></thead>';
+        html += '<tbody>';
+        if(e.roles && e.roles.length > 0) {
+          e.roles.forEach(role => {
+            html += '<tr>';
+            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + '</td>';
+            html += '<td style="padding:14px;border:1px solid var(--border);">';
+            if(role.opps && role.opps.length > 0) {
+              role.opps.forEach(opp => {
+                html += '<p style="margin:6px 0;font-size:13px;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' disabled style="cursor:not-allowed;width:16px;height:16px;margin-right:8px;" /><span style="color:var(--text);text-decoration:' + (opp.checked ? 'line-through' : 'none') + ';opacity:' + (opp.checked ? '0.5' : '1') + ';">' + opp.text + '</span></p>';
+              });
+            } else {
+              html += '<p style="color:var(--text3);margin:0;">—</p>';
+            }
+            html += '</td></tr>';
+          });
+        }
+        html += '</tbody></table>';
+        document.getElementById('detailContent').innerHTML = html;
       }
-      html += '</tbody></table>';
-      document.getElementById('detailContent').innerHTML = html;
+    } else if(e.type === 'nightly') {
     } else if(e.type === 'nightly') {
       document.getElementById('detailTitle').textContent = 'Nightly Recap';
       document.getElementById('detailContent').innerHTML = `
@@ -690,26 +720,69 @@ svg{max-width:100% !important;height:auto !important;}
   }
 
   window.editEntry = function() {
-    if(!selected) {
-      console.error('No entry selected');
-      return;
+    isEditingDetail = true;
+    renderDetail();
+    document.getElementById('editBtn').textContent = 'Save';
+    document.getElementById('editBtn').onclick = saveDetailEdit;
+    document.getElementById('deleteBtn').textContent = 'Cancel';
+    document.getElementById('deleteBtn').onclick = function() { isEditingDetail = false; renderDetail(); updateActionButtons(); };
+  };
+
+  function saveDetailEdit() {
+    if(selected && selected.type === 'weekly') {
+      saveEntry(selected);
+      isEditingDetail = false;
+      renderDetail();
+      updateActionButtons();
     }
-    if(selected.type === 'weekly') {
-      weeklyRoles = selected.roles || [];
-      showView('weekly');
-    } else if(selected.type === 'nightly') {
-      window.nightlyData = {wellDone: selected.wellDone || [], summary: selected.summary || ''};
-      nightlyStep = 0;
-      showView('nightly');
-    } else {
-      newStep = 0;
-      newCurrent = {
-        top10: selected.top10 || [],
-        excites: selected.excites || [],
-        whoami: selected.whoami || [],
-        opps: selected.opps || []
-      };
-      showView('new');
+  }
+
+  function updateActionButtons() {
+    document.getElementById('editBtn').textContent = 'Edit';
+    document.getElementById('editBtn').onclick = editEntry;
+    document.getElementById('deleteBtn').textContent = 'Delete';
+    document.getElementById('deleteBtn').onclick = deleteEntry;
+  }
+
+  window.addDetailRole = function() {
+    const input = document.getElementById('newRoleInput');
+    const name = input.value.trim();
+    if(!name) return;
+    if(!selected.roles) selected.roles = [];
+    selected.roles.push({id: Date.now(), name: name, opps: []});
+    input.value = '';
+    renderDetail();
+  };
+
+  window.removeDetailRole = function(idx) {
+    if(selected.roles) {
+      selected.roles.splice(idx, 1);
+      renderDetail();
+    }
+  };
+
+  window.addDetailOpp = function(roleIdx) {
+    const input = document.getElementById('oppInput' + roleIdx);
+    const text = input.value.trim();
+    if(!text) return;
+    if(selected.roles && selected.roles[roleIdx]) {
+      selected.roles[roleIdx].opps.push({id: Date.now(), text: text, checked: false});
+      input.value = '';
+      renderDetail();
+      setTimeout(() => document.getElementById('oppInput' + roleIdx).focus(), 0);
+    }
+  };
+
+  window.removeDetailOpp = function(roleIdx, oppIdx) {
+    if(selected.roles && selected.roles[roleIdx] && selected.roles[roleIdx].opps) {
+      selected.roles[roleIdx].opps.splice(oppIdx, 1);
+      renderDetail();
+    }
+  };
+
+  window.toggleDetailOpp = function(roleIdx, oppIdx) {
+    if(selected.roles && selected.roles[roleIdx] && selected.roles[roleIdx].opps) {
+      selected.roles[roleIdx].opps[oppIdx].checked = !selected.roles[roleIdx].opps[oppIdx].checked;
     }
   };
   window.saveEdit = function() {

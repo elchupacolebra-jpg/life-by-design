@@ -371,7 +371,7 @@ svg{max-width:100% !important;height:auto !important;}
     document.getElementById('newInput').focus();
     
     const items = newCurrent[q.id];
-    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);"><strong>${i+1}.</strong> ${item}</p>`).join('');
+    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span><strong>${i+1}.</strong> ${item}</span><button onclick="newRemove(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:0;">✕</button></p>`).join('');
     document.getElementById('newList').innerHTML = html;
     document.getElementById('newNextBtn').textContent = newStep === QS.length - 1 ? 'Submit entry ✓' : 'Next: ' + QS[newStep + 1].label + ' →';
   }
@@ -383,10 +383,18 @@ svg{max-width:100% !important;height:auto !important;}
     if(newCurrent[q.id].length === 0) {alert('Add at least one item before continuing'); return;}
     if(newStep < QS.length - 1) {newStep++; renderNewQuestion();} else {
       const now = new Date();
-      const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), ...newCurrent};
-      saveEntry(entry);
+      if(selected && selected.id) {
+        // Editing existing entry
+        const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, ...newCurrent};
+        saveEntry(entry);
+      } else {
+        // Creating new entry
+        const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), ...newCurrent};
+        saveEntry(entry);
+      }
       newStep = 0;
       newCurrent = {top10:[],excites:[],whoami:[],opps:[]};
+      selected = null;
       showView('home');
     }
   };
@@ -432,16 +440,24 @@ svg{max-width:100% !important;height:auto !important;}
   window.nightlyRemove = function(i) {window.window.nightlyData.wellDone.splice(i, 1); renderNightlyQuestion();};
   window.nightlyNext = function() {
     if(nightlyStep === 0) {
-      if(window.window.nightlyData.wellDone.length === 0) {alert('Add at least one win before continuing'); return;}
+      if(window.nightlyData.wellDone.length === 0) {alert('Add at least one win before continuing'); return;}
       nightlyStep++;
       renderNightlyQuestion();
     } else {
-      if(!window.window.nightlyData.summary.trim()) {alert('Add a summary before submitting'); return;}
+      if(!window.nightlyData.summary.trim()) {alert('Add a summary before submitting'); return;}
       const now = new Date();
-      const entry = {id: Date.now(), date: 'Nightly Recap · ' + now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'nightly', wellDone: window.window.nightlyData.wellDone, summary: window.window.nightlyData.summary};
-      saveEntry(entry);
+      if(selected && selected.id) {
+        // Editing existing entry
+        const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, type: 'nightly', wellDone: window.nightlyData.wellDone, summary: window.nightlyData.summary};
+        saveEntry(entry);
+      } else {
+        // Creating new entry
+        const entry = {id: Date.now(), date: 'Nightly Recap · ' + now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'nightly', wellDone: window.nightlyData.wellDone, summary: window.nightlyData.summary};
+        saveEntry(entry);
+      }
       nightlyStep = 0;
       window.nightlyData = {wellDone:[],summary:""};
+      selected = null;
       showView('home');
     }
   };
@@ -527,9 +543,17 @@ svg{max-width:100% !important;height:auto !important;}
     const hasOpps = weeklyRoles.some(r => r.opps.length > 0);
     if(!hasOpps) {alert('Add at least one opportunity'); return;}
     const now = new Date();
-    const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'weekly', roles: weeklyRoles};
-    saveEntry(entry);
+    if(selected && selected.id) {
+      // Editing existing entry
+      const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, type: 'weekly', roles: weeklyRoles};
+      saveEntry(entry);
+    } else {
+      // Creating new entry
+      const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'weekly', roles: weeklyRoles};
+      saveEntry(entry);
+    }
     weeklyRoles = [];
+    selected = null;
     renderWeeklyRoles();
     showView('home');
   };

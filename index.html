@@ -610,12 +610,25 @@ svg{max-width:100% !important;height:auto !important;}
   }
 
   window.selectEntry = function(id) {
+    console.log('Selecting entry with id:', id, 'from entries:', entries.length);
     selected = entries.find(e => e.id === parseInt(id));
+    if(!selected) {
+      console.error('Entry not found in entries array');
+    } else {
+      console.log('Entry found:', selected);
+    }
     showView('detail');
   };
 
   function renderDetail() {
     const e = selected;
+    if(!e) {
+      console.error('No entry selected');
+      document.getElementById('detailTitle').textContent = 'No Entry';
+      document.getElementById('detailContent').innerHTML = '<p>Entry not found</p>';
+      return;
+    }
+    console.log('Rendering detail for entry:', e);
     if(e.type === 'weekly') {
       document.getElementById('detailTitle').textContent = 'Weekly Planning';
       let html = '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';

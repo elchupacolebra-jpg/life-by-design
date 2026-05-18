@@ -665,7 +665,29 @@ svg{max-width:100% !important;height:auto !important;}
     }
   }
 
-  window.editEntry = function() {showView('edit');};
+  window.editEntry = function() {
+    if(!selected) {
+      console.error('No entry selected');
+      return;
+    }
+    if(selected.type === 'weekly') {
+      weeklyRoles = selected.roles || [];
+      showView('weekly');
+    } else if(selected.type === 'nightly') {
+      window.nightlyData = {wellDone: selected.wellDone || [], summary: selected.summary || ''};
+      nightlyStep = 0;
+      showView('nightly');
+    } else {
+      newStep = 0;
+      newCurrent = {
+        top10: selected.top10 || [],
+        excites: selected.excites || [],
+        whoami: selected.whoami || [],
+        opps: selected.opps || []
+      };
+      showView('new');
+    }
+  };
   window.saveEdit = function() {
     const e = selected;
     if(e.type === 'weekly') {

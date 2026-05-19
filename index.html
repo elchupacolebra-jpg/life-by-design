@@ -138,11 +138,11 @@ svg{max-width:100% !important;height:auto !important;}
     <h2 id="nightlyLabel">Things I did well today</h2>
     <p id="nightlyDesc" class="sub">Celebrate your wins</p>
     <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <input id="nightlyInput" type="text" placeholder="Add something..." onKeyDown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())nightlyAdd();else nightlyNext();}" />
+      <input id="nightlyInput" type="text" placeholder="Add Something..." onKeyDown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())nightlyAdd();else nightlyNext();}" />
       <button id="nightlyAddBtn" onclick="nightlyAdd()" style="width:auto;padding:10px 16px;">Add</button>
     </div>
     <div id="nightlyList" class="card"></div>
-    <textarea id="nightlySummary" placeholder="Write your summary..." onInput="window.window.window.nightlyData.summary = this.value;" onKeyDown="if(event.key==='Enter' && event.ctrlKey){event.preventDefault();nightlyNext();}" style="display:none;"></textarea>
+    <textarea id="nightlySummary" placeholder="Write Your Summary..." onInput="window.nightlyData.summary = this.value;" onKeyDown="if(event.key==='Enter' && event.ctrlKey){event.preventDefault();nightlyNext();}" style="display:none;"></textarea>
     <button id="nightlyNextBtn" onclick="nightlyNext()">Next: Daily summary →</button>
   </div>
 
@@ -371,7 +371,7 @@ svg{max-width:100% !important;height:auto !important;}
     document.getElementById('newInput').focus();
     
     const items = newCurrent[q.id];
-    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span><strong>${i+1}.</strong> ${item}</span><button onclick="newRemove(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:0;">✕</button></p>`).join('');
+    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);"><strong>${i+1}.</strong> ${item}<button onclick="newRemove(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:0;margin-left:8px;">✕</button></p>`).join('');
     document.getElementById('newList').innerHTML = html;
     document.getElementById('newNextBtn').textContent = newStep === QS.length - 1 ? 'Submit entry ✓' : 'Next: ' + QS[newStep + 1].label + ' →';
   }
@@ -414,12 +414,8 @@ svg{max-width:100% !important;height:auto !important;}
       document.getElementById('nightlyInput').value = '';
       document.getElementById('nightlyInput').focus();
       
-      const html = window.window.nightlyData.wellDone.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one win</p>' : window.window.nightlyData.wellDone.map((item, i) => `
-        <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr 30px;gap:10px;align-items:start;">
-          <span style="font-size:11px;color:var(--text3);">${i+1}</span>
-          <div style="font-size:14px;color:var(--text);word-wrap:break-word;overflow-wrap:break-word;">${item}</div>
-          <button onclick="nightlyRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;">✕</button>
-        </div>
+      const html = window.nightlyData.wellDone.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one win</p>' : window.nightlyData.wellDone.map((item, i) => `
+        <p style="padding:12px 14px;border-bottom:1px solid var(--border);margin:0;"><strong>${i+1}.</strong> ${item}<button onclick="nightlyRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;margin-left:8px;">✕</button></p>
       `).join('');
       document.getElementById('nightlyList').innerHTML = html;
       document.getElementById('nightlyNextBtn').textContent = 'Next: Daily summary →';
@@ -430,14 +426,14 @@ svg{max-width:100% !important;height:auto !important;}
       document.getElementById('nightlyAddBtn').style.display = 'none';
       document.getElementById('nightlyList').innerHTML = '';
       document.getElementById('nightlySummary').style.display = '';
-      document.getElementById('nightlySummary').value = window.window.nightlyData.summary;
+      document.getElementById('nightlySummary').value = window.nightlyData.summary;
       document.getElementById('nightlySummary').focus();
       document.getElementById('nightlyNextBtn').textContent = 'Submit Recap';
     }
   }
 
-  window.nightlyAdd = function() {const val = document.getElementById('nightlyInput').value.trim(); if(!val) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); window.window.nightlyData.wellDone.push(cap); renderNightlyQuestion();};
-  window.nightlyRemove = function(i) {window.window.nightlyData.wellDone.splice(i, 1); renderNightlyQuestion();};
+  window.nightlyAdd = function() {const val = document.getElementById('nightlyInput').value.trim(); if(!val) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); window.nightlyData.wellDone.push(cap); renderNightlyQuestion();};
+  window.nightlyRemove = function(i) {window.nightlyData.wellDone.splice(i, 1); renderNightlyQuestion();};
   window.nightlyNext = function() {
     if(nightlyStep === 0) {
       if(window.nightlyData.wellDone.length === 0) {alert('Add at least one win before continuing'); return;}
@@ -530,7 +526,7 @@ svg{max-width:100% !important;height:auto !important;}
           ${role.opps.map((opp, i) => `<p style="margin:0;padding:6px 0;font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};text-align:left;"><input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;margin-right:8px;" />${opp.text}<button onclick="removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;margin-left:8px;">✕</button></p>`).join('')}
         </div>
         <div style="display:flex;gap:8px;margin-bottom:0;">
-          <input id="oppInput${role.id}" type="text" placeholder="Add opportunity..." style="flex:1;margin-bottom:0;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
+          <input id="oppInput${role.id}" type="text" placeholder="Add Opportunity..." style="flex:1;margin-bottom:0;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
           <button onclick="addOppToRole(${role.id})" style="width:auto;padding:8px 12px;">Add</button>
         </div>
       </div>
@@ -674,7 +670,7 @@ svg{max-width:100% !important;height:auto !important;}
                 html += '<p style="margin:6px 0;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' onchange="toggleDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="margin-right:8px;" /><span>' + opp.text + '</span> <button onclick="removeDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="background:none;border:none;color:var(--text);cursor:pointer;margin-left:8px;font-weight:bold;font-size:16px;">✕</button></p>';
               });
             }
-            html += '<input type="text" id="oppInput' + roleIdx + '" placeholder="Add opportunity..." style="width:100%;padding:6px;margin-top:6px;" onKeyDown="if(event.key===\'Enter\')addDetailOpp(' + roleIdx + ')" /><button onclick="addDetailOpp(' + roleIdx + ')" style="padding:4px 8px;font-size:12px;margin-top:4px;">Add</button>';
+            html += '<input type="text" id="oppInput' + roleIdx + '" placeholder="Add Opportunity..." style="width:100%;padding:6px;margin-top:6px;" onKeyDown="if(event.key===\'Enter\')addDetailOpp(' + roleIdx + ')" /><button onclick="addDetailOpp(' + roleIdx + ')" style="padding:4px 8px;font-size:12px;margin-top:4px;">Add</button>';
             html += '</td>';
             html += '<td></td></tr>';
           });

@@ -3,799 +3,670 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Life by Design</title>
+<title>Big A## Calendar 2026</title>
+<script src="https://accounts.google.com/gsi/client" onload="window._gsiReady=true; if(window._onGsiReady) window._onGsiReady();" async></script>
 <style>
-:root{--bg:#FAFAF8;--surface:#FFF;--border:rgba(0,0,0,.09);--border-strong:rgba(0,0,0,.18);--text:#1a1a1a;--text2:#666;--text3:#999;--danger:#d93535;--rm:8px;--rl:12px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;}
-input[type="text"],textarea{width:100%;padding:10px 14px;border-radius:var(--rm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:14px;outline:none;font-family:inherit;margin-bottom:10px;}
-input[type="text"]:focus,textarea:focus{border-color:var(--text);}
-textarea{resize:vertical;line-height:1.6;min-height:100px;}
-button{padding:12px 20px;border:none;background:#000;color:#fff !important;border-radius:var(--rm);font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px;width:100%;transition:opacity .15s;text-transform:uppercase;letter-spacing:0.05em;}
-button:hover:not(:disabled){opacity:0.85;}
-button:disabled{opacity:0.35;cursor:not-allowed;}
-.container{max-width:500px;width:100%;}
-.box{border:2px solid var(--text);border-radius:4px;padding:2.5rem 2rem;text-align:center;display:none;}
-.box.active{display:block;}
-h1{font-family:Georgia,serif;font-size:28px;margin:20px 0;color:#000;}
-h2{font-family:Georgia,serif;font-size:21px;margin:0 0 6px;color:var(--text);}
-p{color:var(--text2);margin:10px 0;line-height:1.6;}
-.quote{font-style:italic;color:var(--text3);margin-bottom:2rem;font-size:13px;}
-.sub{font-size:14px;color:var(--text2);margin:0 0 2rem;line-height:1.6;}
-.eyebrow{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:600;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin:1rem 0;width:100%;}
-.card-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);}
-.card-item span:not(.badge){flex:1;min-width:0;white-space:normal;}
-.card-item:last-child{border-bottom:none;}
-.badge{font-size:11px;font-weight:500;color:var(--text3);min-width:20px;text-align:right;flex-shrink:0;}
-.progress{height:2px;background:var(--border);border-radius:1px;margin-bottom:2rem;position:relative;overflow:hidden;}
-.progress-fill{position:absolute;left:0;top:0;height:100%;background:var(--text);border-radius:1px;transition:width .45s;}
-.nav{display:flex;gap:8px;margin-bottom:1.5rem;}
-.nav button{padding:8px 12px;font-size:14px;flex:1;border-radius:var(--rm);}
-.auth-box{text-align:center;padding:3rem 2rem;}
-.loader{border:3px solid var(--border);border-top:3px solid var(--text);border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;margin:0 auto;}
-@keyframes spin{0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);}}
-.error-box{background:#ffebee;border:1px solid var(--danger);border-radius:var(--rm);padding:1rem;color:var(--danger);font-size:13px;line-height:1.6;}
-@media(max-width:480px){
-body{padding:0.75rem;}
-.container{max-width:100%;width:100%;}
-.box{padding:2rem 1.5rem;}
-h1{font-size:24px;margin:16px 0;}
-h2{font-size:18px;}
-button{padding:14px 18px;font-size:14px;}
-input[type="text"],textarea{padding:12px 14px;font-size:16px;}
-.nav button{padding:10px 12px;font-size:13px;}
-p{font-size:15px;}
-.quote{font-size:14px;}
-.sub{font-size:15px;}
-.badge{font-size:12px;}
-.card-item{padding:12px 14px;}
-svg{max-width:100% !important;height:auto !important;}
+:root {
+  --bg: #f4f6fa; --surface: #fff; --border: #dce3f0; --text: #1a2a4a;
+  --text2: #5a6a8a; --text3: #8a9ab8; --blue: #185FA5; --blue-light: #e8f0fa;
+  --green: #639922; --green-light: #e8f5e9; --danger: #A32D2D;
+  --danger-light: #faeaea; --r: 8px; --rl: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea { font-family: inherit; }
+textarea { resize: vertical; }
+#app { min-height: 100vh; }
+
+/* LOADING */
+.loader-wrap { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+.spinner { width:32px; height:32px; border:3px solid var(--border); border-top-color:var(--text); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* LOGIN */
+.login-wrap { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:1rem; }
+.login-box { max-width:420px; width:100%; background:var(--surface); border:2px solid var(--text); border-radius:4px; padding:2.5rem 2rem; text-align:center; }
+.login-logo { font-size:28px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; color:var(--text); margin-bottom:4px; }
+.login-year { font-size:40px; font-weight:900; color:var(--blue); letter-spacing:0.2em; margin-bottom:20px; }
+.login-sub { color:var(--text2); margin-bottom:28px; font-size:14px; line-height:1.6; }
+.btn-primary { width:100%; padding:13px; background:var(--text); color:#fff; border:none; border-radius:var(--r); font-size:14px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; transition:opacity 0.15s; }
+.btn-primary:hover { opacity:0.85; }
+.error-box { margin-top:12px; padding:10px; background:#ffebee; border:1px solid #e24b4a; border-radius:var(--r); color:var(--danger); font-size:13px; display:none; }
+
+/* HEADER */
+.header { padding:12px 16px 10px; border-bottom:2px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; background:var(--surface); position:sticky; top:0; z-index:10; }
+.header-title { font-size:clamp(14px,3vw,26px); font-weight:900; letter-spacing:0.18em; text-transform:uppercase; color:var(--text); }
+.header-title span { color:var(--blue); }
+.header-sub { color:var(--text3); font-size:9px; letter-spacing:0.1em; text-transform:uppercase; margin-top:3px; }
+.header-right { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.legend { display:flex; gap:5px; flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:3px; }
+.legend-dot { width:8px; height:8px; border-radius:2px; }
+.legend-label { color:var(--text3); font-size:9px; }
+.btn-sm { padding:5px 11px; border-radius:6px; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap; border:1px solid var(--border); }
+.btn-gcal-off { background:#f0f4fa; color:var(--blue); }
+.btn-gcal-on  { background:var(--green-light); color:var(--green); border-color:var(--green); }
+.btn-categories { background:#f0f4fa; color:var(--blue); }
+.btn-signout { background:var(--bg); color:var(--text2); font-weight:600; }
+
+/* GRID */
+.grid-wrap { overflow-x:auto; padding:4px 6px 8px; height:calc(100vh - 80px); box-sizing:border-box; }
+.cal-table { border-collapse:collapse; table-layout:fixed; width:max-content; min-width:100%; }
+.cal-table colgroup col:first-child { width:46px; }
+.th-month { padding:3px 6px; text-align:left; color:var(--text3); font-size:9px; font-weight:700; letter-spacing:0.1em; position:sticky; left:0; background:var(--bg); border-right:1px solid var(--border); z-index:3; }
+.th-day { text-align:center; padding:3px 1px; color:var(--text3); font-size:9px; font-weight:700; }
+.td-month { padding:1px 6px; color:var(--blue); font-size:clamp(8px,1.3vw,11px); font-weight:800; letter-spacing:0.14em; text-transform:uppercase; position:sticky; left:0; background:var(--bg); z-index:2; border-right:1px solid var(--border); white-space:nowrap; }
+.td-day { height:calc((100vh - 80px) / 12); min-height:32px; border:0.5px solid var(--border); background:#fff; vertical-align:top; padding:1px; position:relative; transition:background 0.1s; }
+.td-day.valid { cursor:pointer; }
+.td-day.invalid { background:#eef0f5; }
+.td-day.is-weekend { background:#edf0f7; }
+.td-day.is-today { border:1px solid #9ac5f0; background:#e8f5ff; }
+.td-day.is-selected { border:1px solid var(--blue) !important; background:#deeeff !important; }
+.td-day.valid:hover { background:#d8e8fa !important; }
+.ev-bars { height:100%; display:flex; flex-direction:column; gap:1px; }
+.ev-bar { flex:1; opacity:0.7; border-radius:1px; min-height:3px; }
+.ev-overflow { position:absolute; bottom:1px; right:1px; font-size:7px; color:var(--blue); font-weight:700; }
+.today-ring { position:absolute; inset:1px; border:1px solid var(--blue); border-radius:1px; }
+
+/* PANEL */
+.panel-wrap { padding:0 12px 24px; }
+.panel-card { max-width:520px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); padding:24px; }
+.panel-eyebrow { color:var(--blue); font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:5px; }
+.panel-title { color:var(--text); font-size:26px; font-weight:900; letter-spacing:0.06em; }
+.panel-sub { color:#b0bcd4; font-size:12px; margin-left:10px; }
+.panel-close { background:none; border:none; color:#b0bcd4; font-size:22px; line-height:1; padding:2px 6px; }
+.ev-card { border-radius:var(--r); padding:10px 12px; margin-bottom:8px; display:flex; align-items:flex-start; gap:10px; border:1px solid transparent; }
+.ev-tag { display:inline-block; padding:1px 7px; border-radius:3px; color:#fff; font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:5px; }
+.ev-gcal-badge { font-size:9px; color:var(--green); font-weight:600; margin-left:6px; }
+.ev-text { color:var(--text); font-size:15px; line-height:1.45; word-break:break-word; }
+.btn-edit { background:var(--blue-light); border:none; border-radius:4px; color:var(--blue); font-size:11px; padding:4px 9px; font-weight:600; }
+.btn-del { background:var(--danger-light); border:none; border-radius:4px; color:var(--danger); font-size:11px; padding:4px 9px; font-weight:600; }
+.section-label { color:var(--text3); font-size:9px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:10px; }
+.new-textarea { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:14px; padding:10px 12px; margin-bottom:12px; outline:none; min-height:70px; }
+.cat-btn { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:7px; cursor:pointer; text-align:left; border:1px solid var(--border); background:var(--bg); width:100%; transition:all 0.1s; margin-bottom:5px; }
+.cat-btn.selected { border-width:1.5px; }
+.cat-dot-sm { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
+.cat-label { font-size:13px; }
+.cat-check { margin-left:auto; font-size:14px; }
+.gcal-note { font-size:11px; margin-top:6px; }
+.add-btn { width:100%; padding:11px; background:var(--blue); border:none; border-radius:7px; color:#fff; font-size:12px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; margin-top:8px; transition:opacity 0.15s; }
+.add-btn:disabled { opacity:0.4; cursor:default; }
+.divider { border-top:1px solid #e8edf5; padding-top:18px; margin-top:4px; }
+.edit-form-textarea { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; padding:7px 10px; margin-bottom:8px; outline:none; min-height:60px; }
+.edit-cat-btn { display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; cursor:pointer; text-align:left; border:1px solid var(--border); background:var(--bg); width:100%; margin-bottom:4px; }
+.edit-cat-btn.selected { border-width:1.5px; }
+.edit-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+.save-btn { flex:1; padding:6px; background:var(--blue); border:none; border-radius:5px; color:#fff; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+.cancel-btn { padding:6px 12px; background:var(--bg); border:1px solid var(--border); border-radius:5px; color:var(--text3); font-size:11px; }
+.empty-note { color:#c0cce0; font-size:13px; font-style:italic; margin-bottom:4px; }
+
+/* CATEGORIES PAGE */
+.cats-wrap { padding:20px; }
+.cats-card { max-width:440px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--rl); padding:24px; }
+.cats-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.cats-swatch { width:28px; height:28px; border-radius:6px; flex-shrink:0; }
+.cats-input { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:14px; padding:8px 12px; outline:none; font-weight:600; }
+.cats-reset { background:none; border:1px solid var(--border); border-radius:5px; color:#b0bcd4; font-size:11px; padding:4px 8px; }
+.cats-save { flex:1; padding:11px; background:var(--blue); border:none; border-radius:7px; color:#fff; font-size:12px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; }
+.cats-reset-all { padding:11px 16px; background:var(--bg); border:1px solid var(--border); border-radius:7px; color:var(--text3); font-size:11px; font-weight:600; }
+
+@media (max-width: 500px) {
+  .header { padding:10px 12px 8px; }
+  .panel-card { padding:18px 14px; }
 }
 </style>
 </head>
 <body>
-
-<div class="container">
-  <!-- LOGIN -->
-  <div id="login" class="box active auth-box">
-    <svg viewBox="0 0 320 158" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:220px;height:auto;display:block;margin:0 auto 20px;color:var(--text);">
-      <line x1="0" y1="9" x2="320" y2="9" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="0" y1="64" x2="320" y2="64" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="160" y1="0" x2="160" y2="158" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="22" y1="150" x2="298" y2="150" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
-      <rect x="28" y="64" width="82" height="86" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
-      <rect x="110" y="9" width="100" height="141" stroke="currentColor" strokeWidth="1.5" opacity="0.9"/>
-      <rect x="210" y="64" width="82" height="86" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
-    </svg>
-    <h1>Life by Design</h1>
-    <p class="sub" style="margin-bottom:2rem;">Sign in to sync across all your devices</p>
-    <button id="googleSignInBtn" onclick="signInWithGoogle()" style="margin-bottom:2rem;">Sign in with Google</button>
-    <div id="loginError" class="error-box" style="display:none;margin-bottom:1rem;"></div>
-    <p style="font-size:12px;color:var(--text3);margin-top:2rem;">Your data stays private and encrypted</p>
-  </div>
-
-  <!-- LOADING -->
-  <div id="loading" class="box auth-box" style="display:none;">
-    <div class="loader"></div>
-    <p style="margin-top:2rem;">Loading your journal...</p>
-    <p id="loadingStatus" style="font-size:12px;color:var(--text3);margin-top:1rem;"></p>
-  </div>
-
-  <!-- HOME -->
-  <div id="home" class="box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-      <button onclick="showView('home')" style="width:auto;padding:8px 12px;font-size:12px;opacity:0;">placeholder</button>
-      <button id="signOutBtn" onclick="signOut()" style="width:auto;padding:8px 12px;font-size:12px;background:#f0f0f0;color:var(--text);text-transform:none;letter-spacing:normal;">Sign out</button>
-    </div>
-    <svg viewBox="0 0 320 158" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:220px;height:auto;display:block;margin:0 auto 20px;color:var(--text);">
-      <line x1="0" y1="9" x2="320" y2="9" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="0" y1="64" x2="320" y2="64" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="160" y1="0" x2="160" y2="158" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 5" opacity="0.18"/>
-      <line x1="22" y1="150" x2="298" y2="150" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
-      <rect x="28" y="64" width="82" height="86" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
-      <rect x="110" y="9" width="100" height="141" stroke="currentColor" strokeWidth="1.5" opacity="0.9"/>
-      <rect x="210" y="64" width="82" height="86" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
-    </svg>
-    <h1>Life by Design</h1>
-    <p class="quote" style="margin-bottom:4px;">"The mind is its own place, and in itself can make a Heaven of Hell, a Hell of Heaven."</p>
-    <p style="margin:0 0 2rem 0;color:var(--text2);font-weight:500;">— John Milton</p>
-    
-    <button onclick="showView('new')">New Entry</button>
-    <button onclick="showView('nightly')">Nightly Recap</button>
-    <button onclick="showView('weekly')">Weekly Planning</button>
-    <button onclick="window.open('https://open.spotify.com/playlist/2sujKBUu9fV4V3HeonG1E7?si=270b5510e90243f1','_blank')" style="margin-bottom:1rem;">Priming Meditation</button>
-    
-    <p onclick="showView('list')" style="font-size:11px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin:0;">View Answers</p>
-  </div>
-
-  <!-- NEW ENTRY -->
-  <div id="new" class="box">
-    <div class="nav">
-      <button onclick="goBack()">↩ BACK</button>
-      <button onclick="goHome()">⌂ HOME</button>
-    </div>
-    <div class="progress"><div class="progress-fill" id="newProgress" style="width:0%"></div></div>
-    <div class="eyebrow" id="newStep">Step 1 of 4</div>
-    <h2 id="newLabel">Top 10</h2>
-    <p id="newDesc" class="sub">Your 10 most important goals</p>
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <input id="newInput" type="text" placeholder="Enter..." onKeyDown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())newAdd();else newNext();}" />
-      <button id="newAddBtn" onclick="newAdd()" style="width:auto;padding:10px 16px;">Add</button>
-    </div>
-    <div id="newList" class="card"></div>
-    <button id="newNextBtn" onclick="newNext()">Next</button>
-  </div>
-
-  <!-- NIGHTLY RECAP -->
-  <div id="nightly" class="box">
-    <div class="nav">
-      <button onclick="goBack()">↩ BACK</button>
-      <button onclick="goHome()">⌂ HOME</button>
-    </div>
-    <div class="progress"><div class="progress-fill" id="nightlyProgress" style="width:0%"></div></div>
-    <div class="eyebrow" id="nightlyStep">Step 1 of 2</div>
-    <h2 id="nightlyLabel">Things I did well today</h2>
-    <p id="nightlyDesc" class="sub">Celebrate your wins</p>
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <input id="nightlyInput" type="text" placeholder="Add Something..." onKeyDown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())nightlyAdd();else nightlyNext();}" />
-      <button id="nightlyAddBtn" onclick="nightlyAdd()" style="width:auto;padding:10px 16px;">Add</button>
-    </div>
-    <div id="nightlyList" class="card"></div>
-    <textarea id="nightlySummary" placeholder="Write Your Summary..." onInput="window.nightlyData.summary = this.value;" onKeyDown="if(event.key==='Enter' && event.ctrlKey){event.preventDefault();nightlyNext();}" style="display:none;"></textarea>
-    <button id="nightlyNextBtn" onclick="nightlyNext()">Next: Daily summary →</button>
-  </div>
-
-  <!-- WEEKLY PLANNING -->
-  <div id="weekly" class="box">
-    <div class="nav">
-      <button onclick="goBack()">↩ BACK</button>
-      <button onclick="goHome()">⌂ HOME</button>
-    </div>
-    <div class="eyebrow">Weekly Planning</div>
-    <h2 style="margin-bottom:0.5rem;">Life Roles</h2>
-    <p class="sub" style="text-align:left;">Add roles and 2-3 biggest opportunities for each</p>
-    
-    <div style="display:flex;gap:8px;margin-bottom:20px;">
-      <input id="weeklyRoleInput" type="text" placeholder="e.g. Father, Manager, Entrepreneur..." onKeyDown="if(event.key==='Enter' && this.value.trim())addWeeklyRole()" />
-      <button onclick="addWeeklyRole()" style="width:auto;padding:8px 12px;">Add</button>
-    </div>
-    
-    <div id="weeklyRoles" style="margin-bottom:20px;"></div>
-    
-    <button onclick="submitWeekly()">Submit Planning</button>
-  </div>
-
-  <!-- ENTRIES LIST -->
-  <div id="list" class="box">
-    <div class="nav">
-      <button onclick="goBack()">↩ BACK</button>
-      <button onclick="goHome()">⌂ HOME</button>
-    </div>
-    <div class="eyebrow">All entries</div>
-    <h2 style="margin-bottom:1rem;">Your answers</h2>
-    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
-      <button onclick="filterEntries('all')" id="filterAll" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">ALL</button>
-      <button onclick="filterEntries('regular')" id="filterRegular" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">NEW ENTRY</button>
-      <button onclick="filterEntries('nightly')" id="filterNightly" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">NIGHTLY</button>
-      <button onclick="filterEntries('weekly')" id="filterWeekly" style="flex:1;min-width:100px;padding:8px 12px;font-size:13px;">WEEKLY</button>
-    </div>
-    <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-        <input type="checkbox" id="selectAllEntries" onchange="toggleSelectAll()" style="width:18px;height:18px;cursor:pointer;" />
-        <span style="font-size:13px;color:var(--text);">Select All</span>
-      </label>
-      <button id="deleteSelectedBtn" onclick="deleteSelected()" style="flex:1;background:#d93535;display:none;">Delete Selected</button>
-    </div>
-    <div id="entriesList" class="card"></div>
-  </div>
-
-  <!-- ENTRY DETAIL -->
-  <div id="detail" class="box">
-    <div class="nav">
-      <button onclick="goBack()">↩ BACK</button>
-      <button onclick="goHome()">⌂ HOME</button>
-    </div>
-    <div style="margin-bottom:2rem;">
-      <h2 id="detailTitle" style="margin-bottom:2rem;">Entry</h2>
-      <div id="detailContent"></div>
-    </div>
-    <div style="border-top:1px solid var(--border);padding-top:2rem;">
-      <p style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Actions</p>
-      <div style="display:flex;gap:10px;">
-        <button id="editBtn" onclick="editEntry()" style="flex:1;">Edit</button>
-        <button id="deleteBtn" onclick="deleteEntry()" style="flex:1;color:var(--danger);">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="app"><div class="loader-wrap"><div class="spinner"></div></div></div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-  import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
+                                    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getDatabase, ref, set, remove, onValue }
+                                    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC727aJT5MNlMPXWAzbnm5lPUNsyluROVw",
-    authDomain: "life-by-design-d1964.firebaseapp.com",
-    projectId: "life-by-design-d1964",
-    storageBucket: "life-by-design-d1964.appspot.com",
-    messagingSenderId: "521608656121",
-    appId: "1:521608656121:web:ef12c213c52bf1957e1e28"
-  };
+// ─── REPLACE THESE WITH YOUR FIREBASE PROJECT VALUES ─────────────────────────
+// (You can reuse the same project as Life by Design — just copy from Firebase Console)
+const FB_CONFIG = {
+  apiKey:            "AIzaSyD0Q8de-2bjSX4vpjaeA3PeBBqWFbPL0js",
+  authDomain:        "bigasscalendar-7e760.firebaseapp.com",
+  databaseURL:       "https://bigasscalendar-7e760-default-rtdb.firebaseio.com",
+  projectId:         "bigasscalendar-7e760",
+  storageBucket:     "bigasscalendar-7e760.firebasestorage.app",
+  messagingSenderId: "494370450164",
+  appId:             "1:494370450164:web:9a7bc82952c293a185cca1"
+};
+// Your Google OAuth Client ID — found in Firebase Console > Authentication >
+// Sign-in method > Google > Web client ID
+const GOOGLE_CLIENT_ID = "494370450164-55d1telq9ep2fed23hjbneo6v8l1pvo6.apps.googleusercontent.com";
+// ─────────────────────────────────────────────────────────────────────────────
 
-  let app, auth, database, provider;
-  let user = null;
-  let entries = [];
-  let selected = null;
-  let previousView = 'home';
-  let newStep = 0, newCurrent = {top10:[],excites:[],whoami:[],opps:[]};
-  let nightlyStep = 0;
-  window.nightlyData = {wellDone:[],summary:""};
-  let weeklyRoles = [];
-  let weeklyEditingRoleId = null;
-  let currentFilter = 'all';
+const MONTHS     = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MONTH_ABBR = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const DIM        = [31,28,31,30,31,30,31,31,30,31,30,31];  // days in each month 2026
+const DOW_LABEL  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
-  const QS = [
-    {id:"top10", label:"Top 10", desc:"Your 10 most important goals", max:10},
-    {id:"excites", label:"What excites me?", desc:"Anything that lights you up", max:null},
-    {id:"whoami", label:"Who am I?", desc:"Your identity, values, beliefs", max:null},
-    {id:"opps", label:"Greatest opportunities", desc:"Where can you grow and impact?", max:null},
-  ];
+const COLORS = [
+  { id:"blue",   bg:"#378ADD", lt:"#B5D4F4", gcal:"7"  },
+  { id:"red",    bg:"#E24B4A", lt:"#F7C1C1", gcal:"10" },
+  { id:"green",  bg:"#639922", lt:"#C0DD97", gcal:"9"  },
+  { id:"amber",  bg:"#EF9F27", lt:"#FAC775", gcal:"5"  },
+  { id:"purple", bg:"#7F77DD", lt:"#CECBF6", gcal:"3"  },
+  { id:"coral",  bg:"#D85A30", lt:"#F5C4B3", gcal:"6"  },
+  { id:"teal",   bg:"#1D9E75", lt:"#9FE1CB", gcal:"7"  },
+  { id:"pink",   bg:"#D4537E", lt:"#F4C0D1", gcal:"4"  },
+];
+const DEF_LABELS = { blue:"Blue", red:"Red", green:"Green", amber:"Amber", purple:"Purple", coral:"Coral", teal:"Teal", pink:"Pink" };
 
-  try {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    database = getDatabase(app);
-    provider = new GoogleAuthProvider();
-    console.log('✓ Firebase initialized');
-  } catch(err) {
-    console.error('Firebase init error:', err);
-    document.getElementById('loginError').textContent = 'Firebase error: ' + err.message;
-    document.getElementById('loginError').style.display = 'block';
-  }
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let auth, db, fbProvider;
+let user        = null;
+let authChecked = false;
+let events      = {};           // { "m-d": [{id, text, color, gcalId?}] }
+let labels      = {...DEF_LABELS};
+let selDay      = null;         // {m, d}
+let view        = 'cal';        // 'cal' | 'cats'
+let editId      = null;
+let editText    = '';
+let editColor   = 'blue';
+let newText     = '';
+let newColor    = 'blue';
+let draftLabels = {...DEF_LABELS};
+let gcalToken   = null;
+let tokenClient = null;
+let pendingFn   = null;
 
-  window.signInWithGoogle = async function() {
-    try {
-      document.getElementById('login').style.display = 'none';
-      document.getElementById('loading').style.display = 'block';
-      document.getElementById('loadingStatus').textContent = 'Signing in...';
-      const result = await signInWithPopup(auth, provider);
-      user = result.user;
-      console.log('✓ Signed in:', user.email);
-      document.getElementById('loadingStatus').textContent = 'Loading entries...';
-      loadEntries();
-    } catch(error) {
-      console.error('Sign in error:', error);
-      document.getElementById('loginError').textContent = 'Sign in failed: ' + error.message;
-      document.getElementById('loginError').style.display = 'block';
-      document.getElementById('login').style.display = 'block';
-      document.getElementById('loading').style.display = 'none';
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+const getDOW    = (m,d) => new Date(2026,m,d).getDay();
+const getDOY    = (m,d) => { let n=0; for(let i=0;i<m;i++) n+=DIM[i]; return n+d; };
+const ci        = id  => COLORS.find(c=>c.id===id) || COLORS[0];
+const ek        = (m,d) => `${m}-${d}`;
+const evs       = (m,d) => events[ek(m,d)] || [];
+const esc       = s   => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fmt2      = n   => String(n).padStart(2,'0');
+const dateStr   = (m,d) => `2026-${fmt2(m+1)}-${fmt2(d)}`;
+const nextDate  = (m,d) => { const nd=new Date(2026,m,d+1); return `${nd.getFullYear()}-${fmt2(nd.getMonth()+1)}-${fmt2(nd.getDate())}`; };
+
+// ─── FIREBASE ─────────────────────────────────────────────────────────────────
+function initFirebase() {
+  const app = initializeApp(FB_CONFIG);
+  auth       = getAuth(app);
+  db         = getDatabase(app);
+  fbProvider = new GoogleAuthProvider();
+
+  onAuthStateChanged(auth, u => {
+    user        = u;
+    authChecked = true;
+    if (u) {
+      loadData();
+      if (window._gsiReady && !tokenClient) initGCal();
+      else window._onGsiReady = () => { if (user && !tokenClient) initGCal(); };
+    } else {
+      events = {}; labels = {...DEF_LABELS}; selDay = null; view = 'cal';
+      gcalToken = null;
     }
-  };
+    render();
+  });
+}
 
-  window.signOut = function() {
-    firebaseSignOut(auth).then(() => {
-      user = null;
-      entries = [];
-      document.getElementById('login').classList.add('active');
-      document.getElementById('home').classList.remove('active');
-    });
-  };
+function loadData() {
+  onValue(ref(db, `users/${user.uid}/bigcal/events`), snap => {
+    events = snap.val() || {};
+    renderGrid();
+    if (selDay) renderPanel();
+  });
+  onValue(ref(db, `users/${user.uid}/bigcal/labels`), snap => {
+    labels = snap.val() ? {...DEF_LABELS, ...snap.val()} : {...DEF_LABELS};
+    renderHeader();
+    if (selDay) renderPanel();
+  });
+}
 
-  onAuthStateChanged(auth, (currentUser) => {
-    console.log('Auth state changed:', currentUser?.email || 'signed out');
-    if(currentUser) {
-      user = currentUser;
-      document.getElementById('login').classList.remove('active');
-      document.getElementById('loading').classList.add('active');
-      loadEntries();
+async function fbSave(m, d, list) {
+  const k = ek(m, d);
+  if (!list || list.length === 0) await remove(ref(db, `users/${user.uid}/bigcal/events/${k}`));
+  else await set(ref(db, `users/${user.uid}/bigcal/events/${k}`), list);
+}
+
+async function fbSaveLabels(lbs) {
+  await set(ref(db, `users/${user.uid}/bigcal/labels`), lbs);
+}
+
+// ─── GOOGLE CALENDAR ──────────────────────────────────────────────────────────
+function initGCal() {
+  if (!window.google || tokenClient) return;
+  tokenClient = window.google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/calendar.events',
+    callback: resp => {
+      if (resp.error) return;
+      gcalToken = resp.access_token;
+      renderHeader();
+      if (pendingFn) { pendingFn(); pendingFn = null; }
     }
   });
+  renderHeader();
+}
 
-  function loadEntries() {
-    if(!user) {
-      console.error('No user logged in');
-      return;
-    }
-    console.log('Loading entries for user:', user.uid);
-    const entriesRef = ref(database, 'users/' + user.uid + '/entries');
-    onValue(entriesRef, (snapshot) => {
-      console.log('Entries snapshot received');
-      if(snapshot.exists()) {
-        const data = snapshot.val();
-        entries = Object.values(data).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-        console.log('✓ Loaded', entries.length, 'entries');
-      } else {
-        entries = [];
-        console.log('No entries yet');
-      }
-      document.getElementById('loading').classList.remove('active');
-      document.getElementById('home').classList.add('active');
-      if(document.getElementById('list').classList.contains('active')) renderList();
-    }, (error) => {
-      console.error('Database error:', error);
-      document.getElementById('loadingStatus').textContent = 'Error loading data: ' + error.message;
+function connectGCal() {
+  if (!tokenClient) return;
+  tokenClient.requestAccessToken({ prompt: gcalToken ? '' : 'consent' });
+}
+
+async function gcalPost(m, d, ev) {
+  if (!gcalToken) return null;
+  try {
+    const res = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${gcalToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        summary:     ev.text,
+        description: `Category: ${labels[ev.color]}`,
+        colorId:     ci(ev.color).gcal,
+        start:       { date: dateStr(m, d) },
+        end:         { date: nextDate(m, d) }
+      })
     });
-  }
+    if (res.status === 401) { gcalToken = null; renderHeader(); return null; }
+    return (await res.json()).id || null;
+  } catch { return null; }
+}
 
-  function saveEntry(entry) {
-    if(!user) {
-      console.error('No user to save');
-      return;
-    }
-    console.log('Saving entry:', entry.id);
-    const entryRef = ref(database, 'users/' + user.uid + '/entries/' + entry.id);
-    set(entryRef, entry).catch(err => {
-      console.error('Save error:', err);
-      alert('Error saving entry: ' + err.message);
+async function gcalPatch(gcalId, ev) {
+  if (!gcalToken || !gcalId) return;
+  try {
+    const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events/${gcalId}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${gcalToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        summary:     ev.text,
+        description: `Category: ${labels[ev.color]}`,
+        colorId:     ci(ev.color).gcal
+      })
     });
-  }
+    if (res.status === 401) { gcalToken = null; renderHeader(); }
+  } catch {}
+}
 
-  function deleteEntryFromDB(id) {
-    if(!user) return;
-    console.log('Deleting entry:', id);
-    const entryRef = ref(database, 'users/' + user.uid + '/entries/' + id);
-    remove(entryRef).catch(err => {
-      console.error('Delete error:', err);
-      alert('Error deleting: ' + err.message);
+async function gcalDel(gcalId) {
+  if (!gcalToken || !gcalId) return;
+  try {
+    const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events/${gcalId}`, {
+      method: 'DELETE', headers: { Authorization: `Bearer ${gcalToken}` }
     });
+    if (res.status === 401) { gcalToken = null; renderHeader(); }
+  } catch {}
+}
+
+// ─── EVENT CRUD ───────────────────────────────────────────────────────────────
+async function doAddEvent() {
+  if (!newText.trim() || !selDay) return;
+  const {m, d} = selDay;
+  const ev = { id: Date.now().toString(), text: newText.trim(), color: newColor };
+  const list = [...evs(m, d), ev];
+  newText = '';
+  await fbSave(m, d, list);
+  if (gcalToken) {
+    const gid = await gcalPost(m, d, ev);
+    if (gid) await fbSave(m, d, list.map(e => e.id === ev.id ? {...e, gcalId: gid} : e));
   }
+  renderPanel();
+}
 
-  window.goBack = function() {window.showView(previousView === 'home' ? 'home' : previousView);};
-  window.goHome = function() {window.showView('home');};
-  const goBack = window.goBack;
-  const goHome = window.goHome;
+async function doDelete(evId) {
+  if (!selDay) return;
+  const {m, d} = selDay;
+  const ev = evs(m, d).find(e => e.id === evId);
+  await fbSave(m, d, evs(m, d).filter(e => e.id !== evId));
+  if (ev?.gcalId) await gcalDel(ev.gcalId);
+  editId = null;
+  renderPanel();
+}
 
-  window.showView = function(name) {
-    const currentView = Array.from(document.querySelectorAll('.box.active'))[0]?.id || 'home';
-    if(currentView !== name && currentView !== 'home') previousView = currentView;
-    
-    document.querySelectorAll('.box').forEach(el => el.classList.remove('active'));
-    document.getElementById(name).classList.add('active');
-    
-    if(name === 'list') renderList();
-    if(name === 'new') renderNewQuestion();
-    if(name === 'nightly') renderNightlyQuestion();
-    if(name === 'detail') renderDetail();
-  };
+async function doSaveEdit(evId) {
+  if (!selDay || !editText.trim()) return;
+  const {m, d} = selDay;
+  const old = evs(m, d).find(e => e.id === evId);
+  await fbSave(m, d, evs(m, d).map(e => e.id === evId ? {...e, text: editText.trim(), color: editColor} : e));
+  if (old?.gcalId) await gcalPatch(old.gcalId, {text: editText.trim(), color: editColor});
+  editId = null;
+  renderPanel();
+}
 
-  function renderNewQuestion() {
-    const q = QS[newStep];
-    const pct = (newStep / QS.length) * 100;
-    document.getElementById('newProgress').style.width = pct + '%';
-    document.getElementById('newStep').textContent = 'Step ' + (newStep + 1) + ' of ' + QS.length;
-    document.getElementById('newLabel').textContent = q.label;
-    document.getElementById('newDesc').textContent = q.desc;
-    document.getElementById('newInput').value = '';
-    document.getElementById('newInput').focus();
-    
-    const items = newCurrent[q.id];
-    const html = items.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one item</p>' : items.map((item, i) => `<p style="margin:0;padding:12px 14px;border-bottom:1px solid var(--border);"><strong>${i+1}.</strong> ${item}<button onclick="newRemove(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:0;margin-left:8px;">✕</button></p>`).join('');
-    document.getElementById('newList').innerHTML = html;
-    document.getElementById('newNextBtn').textContent = newStep === QS.length - 1 ? 'Submit entry ✓' : 'Next: ' + QS[newStep + 1].label + ' →';
-  }
+// ─── HTML BUILDERS ────────────────────────────────────────────────────────────
+function htmlLogin() {
+  return `<div class="login-wrap">
+    <div class="login-box">
+      <div class="login-logo">The Big A## Calendar</div>
+      <div class="login-year">2026</div>
+      <p class="login-sub">Sign in with Google to sync your calendar across all your devices</p>
+      <button class="btn-primary" id="loginBtn">Sign in with Google</button>
+      <div class="error-box" id="loginErr"></div>
+    </div>
+  </div>`;
+}
 
-  window.newAdd = function() {const val = document.getElementById('newInput').value.trim(); if(!val) return; const q = QS[newStep]; if(q.max && newCurrent[q.id].length >= q.max) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); newCurrent[q.id].push(cap); renderNewQuestion();};
-  window.newRemove = function(i) {const q = QS[newStep]; newCurrent[q.id].splice(i, 1); renderNewQuestion();};
-  window.newNext = function() {
-    const q = QS[newStep];
-    if(newCurrent[q.id].length === 0) {alert('Add at least one item before continuing'); return;}
-    if(newStep < QS.length - 1) {newStep++; renderNewQuestion();} else {
-      const now = new Date();
-      if(selected && selected.id) {
-        // Editing existing entry
-        const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, ...newCurrent};
-        saveEntry(entry);
-      } else {
-        // Creating new entry
-        const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), ...newCurrent};
-        saveEntry(entry);
-      }
-      newStep = 0;
-      newCurrent = {top10:[],excites:[],whoami:[],opps:[]};
-      selected = null;
-      showView('home');
-    }
-  };
-
-  function renderNightlyQuestion() {
-    const pct = (nightlyStep / 2) * 100;
-    document.getElementById('nightlyProgress').style.width = pct + '%';
-    document.getElementById('nightlyStep').textContent = 'Nightly Recap - Step ' + (nightlyStep + 1) + ' of 2';
-    
-    if(nightlyStep === 0) {
-      document.getElementById('nightlyLabel').textContent = 'Things I did well today';
-      document.getElementById('nightlyDesc').textContent = 'Celebrate your wins';
-      document.getElementById('nightlyInput').style.display = '';
-      document.getElementById('nightlyAddBtn').style.display = '';
-      document.getElementById('nightlyList').style.display = '';
-      document.getElementById('nightlySummary').style.display = 'none';
-      document.getElementById('nightlyInput').value = '';
-      document.getElementById('nightlyInput').focus();
-      
-      const html = window.nightlyData.wellDone.length === 0 ? '<p style="text-align:center;padding:2rem 0;color:var(--text3);">Add at least one win</p>' : window.nightlyData.wellDone.map((item, i) => `
-        <p style="padding:12px 14px;border-bottom:1px solid var(--border);margin:0;"><strong>${i+1}.</strong> ${item}<button onclick="nightlyRemove(${i})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;margin-left:8px;">✕</button></p>
-      `).join('');
-      document.getElementById('nightlyList').innerHTML = html;
-      document.getElementById('nightlyNextBtn').textContent = 'Next: Daily summary →';
-    } else {
-      document.getElementById('nightlyLabel').textContent = 'Daily summary';
-      document.getElementById('nightlyDesc').textContent = 'Reflect on your day';
-      document.getElementById('nightlyInput').style.display = 'none';
-      document.getElementById('nightlyAddBtn').style.display = 'none';
-      document.getElementById('nightlyList').innerHTML = '';
-      document.getElementById('nightlySummary').style.display = '';
-      document.getElementById('nightlySummary').value = window.nightlyData.summary;
-      document.getElementById('nightlySummary').focus();
-      document.getElementById('nightlyNextBtn').textContent = 'Submit Recap';
-    }
-  }
-
-  window.nightlyAdd = function() {const val = document.getElementById('nightlyInput').value.trim(); if(!val) return; const cap = val.charAt(0).toUpperCase() + val.slice(1); window.nightlyData.wellDone.push(cap); renderNightlyQuestion();};
-  window.nightlyRemove = function(i) {window.nightlyData.wellDone.splice(i, 1); renderNightlyQuestion();};
-  window.nightlyNext = function() {
-    if(nightlyStep === 0) {
-      if(window.nightlyData.wellDone.length === 0) {alert('Add at least one win before continuing'); return;}
-      nightlyStep++;
-      renderNightlyQuestion();
-    } else {
-      if(!window.nightlyData.summary.trim()) {alert('Add a summary before submitting'); return;}
-      const now = new Date();
-      if(selected && selected.id) {
-        // Editing existing entry
-        const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, type: 'nightly', wellDone: window.nightlyData.wellDone, summary: window.nightlyData.summary};
-        saveEntry(entry);
-      } else {
-        // Creating new entry
-        const entry = {id: Date.now(), date: 'Nightly Recap · ' + now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'nightly', wellDone: window.nightlyData.wellDone, summary: window.nightlyData.summary};
-        saveEntry(entry);
-      }
-      nightlyStep = 0;
-      window.nightlyData = {wellDone:[],summary:""};
-      selected = null;
-      showView('home');
-    }
-  };
-
-  window.addWeeklyRole = function() {
-    const val = document.getElementById('weeklyRoleInput').value.trim();
-    if(!val) return;
-    weeklyRoles.push({id: Date.now(), name: val, opps: []});
-    document.getElementById('weeklyRoleInput').value = '';
-    renderWeeklyRoles();
-    document.getElementById('weeklyRoleInput').focus();
-  };
-
-  window.removeWeeklyRole = function(id) {
-    weeklyRoles = weeklyRoles.filter(r => r.id !== id);
-    renderWeeklyRoles();
-  };
-
-  window.addOppToRole = function(roleId) {
-    roleId = parseInt(roleId);
-    const input = document.getElementById('oppInput' + roleId);
-    if(!input) {
-      console.error('Input not found for roleId:', roleId);
-      return;
-    }
-    const val = input.value.trim();
-    if(!val) return;
-    const role = weeklyRoles.find(r => r.id === roleId);
-    if(role) {
-      role.opps.push({id: Date.now(), text: val, checked: false});
-      input.value = '';
-      renderWeeklyRoles();
-      setTimeout(() => {
-        const newInput = document.getElementById('oppInput' + roleId);
-        if(newInput) newInput.focus();
-      }, 50);
-    }
-  };
-
-  window.removeOppFromRole = function(roleId, oppId) {
-    const role = weeklyRoles.find(r => r.id === roleId);
-    if(role) {
-      role.opps = role.opps.filter(o => o.id !== oppId);
-      renderWeeklyRoles();
-    }
-  };
-
-  window.toggleOppCheck = function(roleId, oppId) {
-    const role = weeklyRoles.find(r => r.id === roleId);
-    if(role) {
-      const opp = role.opps.find(o => o.id === oppId);
-      if(opp) opp.checked = !opp.checked;
-      renderWeeklyRoles();
-    }
-  };
-
-  function renderWeeklyRoles() {
-    if(weeklyRoles.length === 0) {
-      document.getElementById('weeklyRoles').innerHTML = '';
-      return;
-    }
-    
-    const html = weeklyRoles.map(role => `
-      <div style="margin-bottom:16px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
-        <div style="margin-bottom:12px;position:relative;">
-          <p style="font-size:16px;font-weight:500;color:var(--text);margin:0;padding-right:28px;text-align:left;">${role.name}</p>
-          <button onclick="event.stopPropagation(); removeWeeklyRole(${role.id})" style="background:none;color:var(--text3);border:none;padding:0;cursor:pointer;font-size:16px;position:absolute;top:0;right:0;">✕</button>
-        </div>
-        <div style="margin-bottom:12px;">
-          ${role.opps.map((opp, i) => `<p style="margin:0;padding:6px 0;font-size:14px;color:var(--text);text-decoration:${opp.checked ? 'line-through' : 'none'};opacity:${opp.checked ? '0.5' : '1'};text-align:left;"><input type="checkbox" ${opp.checked ? 'checked' : ''} onchange="toggleOppCheck(${role.id}, ${opp.id})" style="cursor:pointer;width:18px;height:18px;margin-right:8px;" />${opp.text}<button onclick="removeOppFromRole(${role.id}, ${opp.id})" style="background:none;border:none;padding:0;color:var(--text3);cursor:pointer;font-size:12px;margin-left:8px;">✕</button></p>`).join('')}
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:0;">
-          <input id="oppInput${role.id}" type="text" placeholder="Add Opportunity..." style="flex:1;margin-bottom:0;" onKeyDown="if(event.key==='Enter')addOppToRole(${role.id})" />
-          <button onclick="addOppToRole(${role.id})" style="width:auto;padding:8px 12px;">Add</button>
-        </div>
+function htmlHeader() {
+  if (!user) return '';
+  const gcalBtnClass = gcalToken ? 'btn-sm btn-gcal-on' : 'btn-sm btn-gcal-off';
+  const gcalBtnText  = gcalToken ? '✓ Google Cal On' : 'Connect Google Cal';
+  const gcalBtn      = tokenClient ? `<button class="${gcalBtnClass}" data-a="gcal">${gcalBtnText}</button>` : '';
+  return `<div class="header">
+    <div>
+      <div class="header-title">The Big A## Calendar <span>2026</span></div>
+      <div class="header-sub">Click any day to view, add and edit events</div>
+    </div>
+    <div class="header-right">
+      <div class="legend">
+        ${COLORS.map(c => `<div class="legend-item"><div class="legend-dot" style="background:${c.bg}"></div><span class="legend-label">${esc(labels[c.id])}</span></div>`).join('')}
       </div>
-    `).join('');
-    document.getElementById('weeklyRoles').innerHTML = html;
-  }
+      ${gcalBtn}
+      <button class="btn-sm btn-categories" data-a="open-cats">Edit Categories</button>
+      <button class="btn-sm btn-signout" data-a="signout">Sign Out</button>
+    </div>
+  </div>`;
+}
 
-  window.submitWeekly = function() {
-    if(weeklyRoles.length === 0) {alert('Add at least one role'); return;}
-    const hasOpps = weeklyRoles.some(r => r.opps.length > 0);
-    if(!hasOpps) {alert('Add at least one opportunity'); return;}
-    const now = new Date();
-    if(selected && selected.id) {
-      // Editing existing entry
-      const entry = {id: selected.id, date: selected.date, timestamp: selected.timestamp, type: 'weekly', roles: weeklyRoles};
-      saveEntry(entry);
-    } else {
-      // Creating new entry
-      const entry = {id: Date.now(), date: now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}), timestamp: now.toISOString(), type: 'weekly', roles: weeklyRoles};
-      saveEntry(entry);
-    }
-    weeklyRoles = [];
-    selected = null;
-    renderWeeklyRoles();
-    showView('home');
-  };
-
-  let selectedEntries = new Set();
-
-  window.toggleSelectAll = function() {
-    const isChecked = document.getElementById('selectAllEntries').checked;
-    const filtered = getFilteredEntries();
-    selectedEntries.clear();
-    if(isChecked) {
-      filtered.forEach(e => selectedEntries.add(e.id));
-    }
-    renderList();
-    updateDeleteButton();
-  };
-
-  window.toggleEntrySelection = function(id) {
-    if(selectedEntries.has(id)) {
-      selectedEntries.delete(id);
-    } else {
-      selectedEntries.add(id);
-    }
-    document.getElementById('selectAllEntries').checked = false;
-    updateDeleteButton();
-  };
-
-  function updateDeleteButton() {
-    const btn = document.getElementById('deleteSelectedBtn');
-    if(selectedEntries.size > 0) {
-      btn.style.display = '';
-    } else {
-      btn.style.display = 'none';
-    }
-  }
-
-  window.deleteSelected = function() {
-    if(selectedEntries.size === 0) return;
-    if(!confirm(`Delete ${selectedEntries.size} entry/entries? This cannot be undone.`)) return;
-    selectedEntries.forEach(id => {
-      deleteEntryFromDB(id);
-    });
-    selectedEntries.clear();
-    document.getElementById('selectAllEntries').checked = false;
-    updateDeleteButton();
-  };
-
-  window.filterEntries = function(type) {
-    currentFilter = type;
-    ['filterAll', 'filterRegular', 'filterNightly', 'filterWeekly'].forEach(id => {document.getElementById(id).style.opacity = '0.5';});
-    const filterMap = {all: 'filterAll', regular: 'filterRegular', nightly: 'filterNightly', weekly: 'filterWeekly'};
-    document.getElementById(filterMap[type]).style.opacity = '1';
-    renderList();
-  };
-
-  function getFilteredEntries() {
-    if(currentFilter === 'all') return entries;
-    if(currentFilter === 'regular') return entries.filter(e => !e.type);
-    if(currentFilter === 'nightly') return entries.filter(e => e.type === 'nightly');
-    if(currentFilter === 'weekly') return entries.filter(e => e.type === 'weekly');
-    return entries;
-  }
-
-  function renderList() {
-    const filtered = getFilteredEntries();
-    const html = filtered.length === 0 ? '<div class="card-item"><p style="margin:0;text-align:center;width:100%;color:var(--text3);">No entries</p></div>' : filtered.map((e) => `
-      <div class="card-item" style="cursor:pointer;">
-        <input type="checkbox" ${selectedEntries.has(e.id) ? 'checked' : ''} onchange="event.stopPropagation(); toggleEntrySelection('${e.id}'); renderList();" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;" />
-        <span style="flex:1;text-align:left;" onclick="selectEntry('${e.id}')">
-          <p style="margin:0;font-weight:500;color:var(--text)">${e.date}</p>
-          <p style="margin:0;font-size:12px;color:var(--text3);margin-top:1px;">${e.type === 'nightly' ? 'Nightly Recap' : e.type === 'weekly' ? 'Weekly Planning' : (e.top10.length + e.excites.length + e.whoami.length + e.opps.length) + ' answers'}</p>
-        </span>
-        <p style="margin:0;color:var(--text3);" onclick="selectEntry('${e.id}')">›</p>
-      </div>
-    `).join('');
-    document.getElementById('entriesList').innerHTML = html;
-    updateDeleteButton();
-  }
-
-  window.selectEntry = function(id) {
-    console.log('Selecting entry with id:', id, 'from entries:', entries.length);
-    selected = entries.find(e => e.id === parseInt(id));
-    if(!selected) {
-      console.error('Entry not found in entries array');
-    } else {
-      console.log('Entry found:', selected);
-    }
-    showView('detail');
-  };
-
-  let isEditingDetail = false;
-
-  function renderDetail() {
-    const e = selected;
-    if(!e) {
-      console.error('No entry selected');
-      document.getElementById('detailTitle').textContent = 'No Entry';
-      document.getElementById('detailContent').innerHTML = '<p>Entry not found</p>';
-      return;
-    }
-    console.log('Rendering detail for entry:', e);
-    
-    if(e.type === 'weekly') {
-      document.getElementById('detailTitle').textContent = 'Weekly Planning';
-      if(isEditingDetail) {
-        // Editable mode
-        let html = '<div style="margin-bottom:20px;"><label>Add new role: <input id="newRoleInput" type="text" placeholder="e.g., Father, Manager..." style="flex:1;margin:0 8px;padding:8px;" /><button onclick="addDetailRole()" style="padding:8px 12px;">Add Role</button></label></div>';
-        html += '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';
-        html += '<thead><tr style="background:var(--border);"><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;border:1px solid var(--border);">Role</th><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;border:1px solid var(--border);">Opportunities</th><th style="width:40px;padding:12px;"></th></tr></thead>';
-        html += '<tbody>';
-        if(e.roles && e.roles.length > 0) {
-          e.roles.forEach((role, roleIdx) => {
-            html += '<tr>';
-            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + ' <button onclick="removeDetailRole(' + roleIdx + ')" style="background:none;border:none;color:var(--text);cursor:pointer;margin-left:12px;font-weight:bold;">✕</button></td>';
-            html += '<td style="padding:14px;border:1px solid var(--border);">';
-            if(role.opps && role.opps.length > 0) {
-              role.opps.forEach((opp, oppIdx) => {
-                html += '<p style="margin:6px 0;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' onchange="toggleDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="margin-right:8px;" /><span>' + opp.text + '</span> <button onclick="removeDetailOpp(' + roleIdx + ',' + oppIdx + ')" style="background:none;border:none;color:var(--text);cursor:pointer;margin-left:8px;font-weight:bold;font-size:16px;">✕</button></p>';
-              });
-            }
-            html += '<input type="text" id="oppInput' + roleIdx + '" placeholder="Add Opportunity..." style="width:100%;padding:6px;margin-top:6px;" onKeyDown="if(event.key===\'Enter\')addDetailOpp(' + roleIdx + ')" /><button onclick="addDetailOpp(' + roleIdx + ')" style="padding:4px 8px;font-size:12px;margin-top:4px;">Add</button>';
-            html += '</td>';
-            html += '<td></td></tr>';
-          });
-        }
-        html += '</tbody></table>';
-        document.getElementById('detailContent').innerHTML = html;
-      } else {
-        // Read-only mode
-        let html = '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;">';
-        html += '<thead><tr style="background:var(--border);"><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Role</th><th style="padding:12px;text-align:left;font-weight:600;font-size:13px;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--border);">Biggest Opportunities</th></tr></thead>';
-        html += '<tbody>';
-        if(e.roles && e.roles.length > 0) {
-          e.roles.forEach(role => {
-            html += '<tr>';
-            html += '<td style="padding:14px;border:1px solid var(--border);font-weight:500;color:var(--text);vertical-align:top;">' + role.name + '</td>';
-            html += '<td style="padding:14px;border:1px solid var(--border);">';
-            if(role.opps && role.opps.length > 0) {
-              role.opps.forEach(opp => {
-                html += '<p style="margin:6px 0;font-size:13px;"><input type="checkbox" ' + (opp.checked ? 'checked' : '') + ' disabled style="cursor:not-allowed;width:16px;height:16px;margin-right:8px;" /><span style="color:var(--text);text-decoration:' + (opp.checked ? 'line-through' : 'none') + ';opacity:' + (opp.checked ? '0.5' : '1') + ';">' + opp.text + '</span></p>';
-              });
-            } else {
-              html += '<p style="color:var(--text3);margin:0;">—</p>';
-            }
-            html += '</td></tr>';
-          });
-        }
-        html += '</tbody></table>';
-        document.getElementById('detailContent').innerHTML = html;
+function htmlGrid() {
+  const today = new Date();
+  let rows = '';
+  MONTHS.forEach((month, mi) => {
+    let cells = '';
+    for (let d = 1; d <= 31; d++) {
+      const valid    = d <= DIM[mi];
+      const evList   = valid ? evs(mi, d) : [];
+      const dow      = valid ? getDOW(mi, d) : -1;
+      const isWE     = dow === 0 || dow === 6;
+      const isToday  = valid && today.getFullYear()===2026 && today.getMonth()===mi && today.getDate()===d;
+      const isSel    = selDay && selDay.m===mi && selDay.d===d;
+      let cls = 'td-day';
+      if (!valid)  cls += ' invalid';
+      else {
+        cls += ' valid';
+        if (isSel)    cls += ' is-selected';
+        else if (isToday) cls += ' is-today';
+        else if (isWE)    cls += ' is-weekend';
       }
-    } else if(e.type === 'nightly') {
-    } else if(e.type === 'nightly') {
-      document.getElementById('detailTitle').textContent = 'Nightly Recap';
-      document.getElementById('detailContent').innerHTML = `
-        <div style="margin-bottom:24px;"><div class="eyebrow">Things I did well today</div><div class="card">${e.wellDone.map((item, i) => `<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;"><span style="font-size:11px;color:var(--text3);">${i+1}</span><div style="font-size:14px;color:var(--text);word-wrap:break-word;overflow-wrap:break-word;">${item}</div></div>`).join('')}</div></div></div>
-        <div style="margin-bottom:24px;"><div class="eyebrow">Daily summary</div><div class="card"><p style="padding:14px 16px;margin:0;color:var(--text);line-height:1.7;">${e.summary}</p></div></div>
-      `;
-    } else {
-      document.getElementById('detailTitle').textContent = e.date;
-      const sections = [{id:'top10', label:'Top 10'}, {id:'excites', label:'What excites me?'}, {id:'whoami', label:'Who am I?'}, {id:'opps', label:'Greatest opportunities'}];
-      const html = sections.map(s => {const items = e[s.id]; if(!items || items.length === 0) return ''; return `<div style="margin-bottom:24px;"><div class="eyebrow">${s.label}</div><div class="card">${items.map((item, i) => `<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;"><span style="font-size:11px;color:var(--text3);">${i+1}</span><div style="font-size:14px;color:var(--text);word-wrap:break-word;overflow-wrap:break-word;">${item}</div></div>`).join('')}</div></div>`;}).join('');
-      document.getElementById('detailContent').innerHTML = html;
+      const attr = valid ? `data-a="day" data-m="${mi}" data-d="${d}"` : '';
+      let inner = '';
+      if (valid && evList.length > 0) {
+        const bars = evList.slice(0,4).map(ev => `<div class="ev-bar" style="background:${ci(ev.color).bg}"></div>`).join('');
+        const more = evList.length > 4 ? `<div class="ev-overflow">+${evList.length-4}</div>` : '';
+        inner = `<div class="ev-bars">${bars}</div>${more}`;
+      } else if (valid && isToday && evList.length===0) {
+        inner = `<div class="today-ring"></div>`;
+      }
+      cells += `<td class="${cls}" ${attr}>${inner}</td>`;
     }
+    rows += `<tr>
+      <td class="td-month">${MONTH_ABBR[mi]}</td>
+      ${cells}
+    </tr>`;
+  });
+  return `<div class="grid-wrap">
+    <table class="cal-table">
+      <colgroup>
+        <col style="width:46px">
+        ${Array.from({length:31}).map(()=>`<col style="width:clamp(20px,2.6vw,36px)">`).join('')}
+      </colgroup>
+      <thead><tr>
+        <th class="th-month">MO</th>
+        ${Array.from({length:31},(_,i)=>`<th class="th-day">${i+1}</th>`).join('')}
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+function htmlPanel() {
+  if (!selDay) return '';
+  const {m, d} = selDay;
+  const evList = evs(m, d);
+
+  let evHtml = evList.length === 0
+    ? `<p class="empty-note">No events yet — add one below.</p>`
+    : evList.map(ev => {
+        const c = ci(ev.color);
+        if (editId === ev.id) {
+          return `<div class="ev-card" style="background:${c.lt}55;border-color:${c.bg}40;border-left:3px solid ${c.bg}">
+            <div style="flex:1">
+              <textarea class="edit-form-textarea" id="editTA" data-evid="${ev.id}" rows="2">${esc(editText)}</textarea>
+              <div style="margin-bottom:8px">
+                ${COLORS.map(bc => `
+                  <button class="edit-cat-btn${editColor===bc.id?' selected':''}" data-a="set-edit-col" data-col="${bc.id}"
+                    style="${editColor===bc.id ? `background:${bc.lt}88;border-color:${bc.bg}` : ''}">
+                    <div class="edit-dot" style="background:${bc.bg}"></div>
+                    <span style="font-size:12px;font-weight:${editColor===bc.id?700:500};color:${editColor===bc.id?'#1a2a4a':'#5a6a8a'}">${esc(labels[bc.id])}</span>
+                    ${editColor===bc.id?`<span style="margin-left:auto;color:${bc.bg};font-size:12px">✓</span>`:''}
+                  </button>`).join('')}
+              </div>
+              <div style="display:flex;gap:6px">
+                <button class="save-btn" data-a="save-edit" data-evid="${ev.id}">Save</button>
+                <button class="cancel-btn" data-a="cancel-edit">Cancel</button>
+              </div>
+            </div>
+          </div>`;
+        }
+        const gcalBadge = ev.gcalId ? `<span class="ev-gcal-badge">Google Cal</span>` : '';
+        return `<div class="ev-card" style="background:${c.lt}55;border-color:${c.bg}40;border-left:3px solid ${c.bg}">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+              <span class="ev-tag" style="background:${c.bg}">${esc(labels[ev.color])}</span>${gcalBadge}
+            </div>
+            <p class="ev-text">${esc(ev.text)}</p>
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0">
+            <button class="btn-edit" data-a="edit-ev" data-evid="${ev.id}">Edit</button>
+            <button class="btn-del"  data-a="del-ev"  data-evid="${ev.id}">Del</button>
+          </div>
+        </div>`;
+      }).join('');
+
+  const gcalNote = gcalToken
+    ? `<p class="gcal-note" style="color:#639922">Events will sync to your Google Calendar automatically</p>`
+    : `<p class="gcal-note" style="color:var(--text3)">Connect Google Calendar in the header to auto-sync events</p>`;
+
+  return `<div class="panel-wrap">
+    <div class="panel-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+        <div>
+          <div class="panel-eyebrow">${MONTHS[m]} ${d}, 2026</div>
+          <div style="display:flex;align-items:baseline">
+            <span class="panel-title">${DOW_LABEL[getDOW(m,d)]}</span>
+            <span class="panel-sub">Day ${getDOY(m,d)} of 365</span>
+          </div>
+        </div>
+        <button class="panel-close" data-a="close-panel">&#x2715;</button>
+      </div>
+      <div style="margin-bottom:20px">${evHtml}</div>
+      <div class="divider">
+        <div class="section-label">Add New Event</div>
+        <textarea class="new-textarea" id="newTA" placeholder="Type your event... (Enter to save)">${esc(newText)}</textarea>
+        <div class="section-label" style="margin-top:4px">Category</div>
+        <div style="margin-bottom:8px">
+          ${COLORS.map(c => `
+            <button class="cat-btn${newColor===c.id?' selected':''}" data-a="set-new-col" data-col="${c.id}"
+              style="${newColor===c.id ? `background:${c.lt}88;border-color:${c.bg}` : ''}">
+              <div class="cat-dot-sm" style="background:${c.bg}"></div>
+              <span class="cat-label" style="font-weight:${newColor===c.id?700:500};color:${newColor===c.id?'#1a2a4a':'#5a6a8a'}">${esc(labels[c.id])}</span>
+              ${newColor===c.id?`<span class="cat-check" style="color:${c.bg}">&#x2713;</span>`:''}
+            </button>`).join('')}
+        </div>
+        ${gcalNote}
+        <button class="add-btn" data-a="add-ev">+ Add Event</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function htmlCats() {
+  return `<div class="cats-wrap">
+    <div class="cats-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+        <div>
+          <div class="panel-eyebrow">Manage Categories</div>
+          <div style="color:var(--text);font-size:20px;font-weight:900">Color Labels</div>
+        </div>
+        <button class="panel-close" data-a="close-cats">&#x2715;</button>
+      </div>
+      <p style="color:var(--text3);font-size:12px;margin:0 0 16px;line-height:1.5">
+        Rename each color — e.g. Work, Family, Travel, Fitness. Labels save to your account.
+      </p>
+      <div style="margin-bottom:22px">
+        ${COLORS.map(c => `
+          <div class="cats-row">
+            <div class="cats-swatch" style="background:${c.bg}"></div>
+            <input class="cats-input" data-a="edit-label" data-col="${c.id}"
+              value="${esc(draftLabels[c.id] || '')}" maxlength="20" placeholder="${DEF_LABELS[c.id]}">
+            <button class="cats-reset" data-a="reset-label" data-col="${c.id}">Reset</button>
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="cats-save" data-a="save-cats">Save Labels</button>
+        <button class="cats-reset-all" data-a="reset-all">Reset All</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render() {
+  const app = document.getElementById('app');
+  if (!authChecked) { app.innerHTML = `<div class="loader-wrap"><div class="spinner"></div></div>`; return; }
+  if (!user) { app.innerHTML = htmlLogin(); return; }
+  if (view === 'cats') { app.innerHTML = htmlCats(); return; }
+  app.innerHTML = `
+    <div id="hdr">${htmlHeader()}</div>
+    <div id="grd">${htmlGrid()}</div>
+    <div id="pnl">${htmlPanel()}</div>
+  `;
+}
+
+function renderHeader() {
+  const el = document.getElementById('hdr');
+  if (el) el.innerHTML = htmlHeader();
+}
+function renderGrid() {
+  const el = document.getElementById('grd');
+  if (el) el.innerHTML = htmlGrid();
+}
+function renderPanel() {
+  const el = document.getElementById('pnl');
+  if (el) el.innerHTML = htmlPanel();
+  else render();
+}
+
+// ─── EVENT HANDLING ───────────────────────────────────────────────────────────
+function readNewTA()  { const t = document.getElementById('newTA');   if (t) newText  = t.value; }
+function readEditTA() { const t = document.getElementById('editTA');  if (t) editText = t.value; }
+function focusNewTA() { setTimeout(() => { const t = document.getElementById('newTA');  if (t) { t.focus(); t.setSelectionRange(t.value.length,t.value.length); } }, 20); }
+function focusEditTA(){ setTimeout(() => { const t = document.getElementById('editTA'); if (t) { t.focus(); t.setSelectionRange(t.value.length,t.value.length); } }, 20); }
+
+document.getElementById('app').addEventListener('click', async e => {
+  // Login button
+  if (e.target.id === 'loginBtn') {
+    try { await signInWithPopup(auth, fbProvider); }
+    catch (err) {
+      const el = document.getElementById('loginErr');
+      if (el) { el.style.display = 'block'; el.textContent = err.message; }
+    }
+    return;
   }
 
-  window.editEntry = function() {
-    isEditingDetail = true;
-    renderDetail();
-    document.getElementById('editBtn').textContent = 'Save';
-    document.getElementById('editBtn').onclick = saveDetailEdit;
-    document.getElementById('deleteBtn').textContent = 'Cancel';
-    document.getElementById('deleteBtn').onclick = function() { isEditingDetail = false; renderDetail(); updateActionButtons(); };
-  };
+  const el = e.target.closest('[data-a]');
+  if (!el) return;
+  const a = el.dataset.a;
 
-  function saveDetailEdit() {
-    if(selected && selected.type === 'weekly') {
-      saveEntry(selected);
-      isEditingDetail = false;
-      renderDetail();
-      updateActionButtons();
-    }
+  if (a === 'signout') {
+    gcalToken = null; tokenClient = null;
+    await signOut(auth);
+    return;
+  }
+  if (a === 'gcal') { connectGCal(); return; }
+
+  if (a === 'open-cats') {
+    draftLabels = {...labels}; view = 'cats'; render(); return;
+  }
+  if (a === 'close-cats') { view = 'cal'; render(); return; }
+  if (a === 'reset-all')  { draftLabels = {...DEF_LABELS}; render(); return; }
+  if (a === 'reset-label') { draftLabels[el.dataset.col] = DEF_LABELS[el.dataset.col]; render(); return; }
+  if (a === 'save-cats') {
+    labels = {...draftLabels};
+    await fbSaveLabels(labels);
+    view = 'cal'; render(); return;
   }
 
-  function updateActionButtons() {
-    document.getElementById('editBtn').textContent = 'Edit';
-    document.getElementById('editBtn').onclick = editEntry;
-    document.getElementById('deleteBtn').textContent = 'Delete';
-    document.getElementById('deleteBtn').onclick = deleteEntry;
+  if (a === 'day') {
+    readNewTA();
+    selDay    = { m: parseInt(el.dataset.m), d: parseInt(el.dataset.d) };
+    newText   = ''; newColor = 'blue'; editId = null;
+    renderPanel();
+    setTimeout(() => document.getElementById('pnl')?.scrollIntoView({behavior:'smooth', block:'start'}), 60);
+    return;
+  }
+  if (a === 'close-panel') { selDay = null; editId = null; renderPanel(); return; }
+
+  if (a === 'set-new-col') {
+    readNewTA();
+    newColor = el.dataset.col;
+    renderPanel();
+    focusNewTA();
+    return;
+  }
+  if (a === 'add-ev') {
+    readNewTA();
+    await doAddEvent();
+    return;
   }
 
-  window.addDetailRole = function() {
-    const input = document.getElementById('newRoleInput');
-    const name = input.value.trim();
-    if(!name) return;
-    if(!selected.roles) selected.roles = [];
-    selected.roles.push({id: Date.now(), name: name, opps: []});
-    input.value = '';
-    renderDetail();
-  };
+  if (a === 'edit-ev') {
+    const ev = evs(selDay.m, selDay.d).find(e => e.id === el.dataset.evid);
+    if (ev) { editId = ev.id; editText = ev.text; editColor = ev.color; renderPanel(); focusEditTA(); }
+    return;
+  }
+  if (a === 'cancel-edit') { editId = null; renderPanel(); return; }
+  if (a === 'set-edit-col') {
+    readEditTA();
+    editColor = el.dataset.col;
+    renderPanel();
+    focusEditTA();
+    return;
+  }
+  if (a === 'save-edit') {
+    readEditTA();
+    await doSaveEdit(el.dataset.evid);
+    return;
+  }
+  if (a === 'del-ev') {
+    await doDelete(el.dataset.evid);
+    return;
+  }
+});
 
-  window.removeDetailRole = function(idx) {
-    if(selected.roles) {
-      selected.roles.splice(idx, 1);
-      renderDetail();
-    }
-  };
+document.getElementById('app').addEventListener('keydown', async e => {
+  if (e.target.id === 'newTA' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    newText = e.target.value;
+    await doAddEvent();
+  }
+  if (e.target.id === 'editTA' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    editText = e.target.value;
+    const evid = e.target.dataset.evid;
+    if (evid) await doSaveEdit(evid);
+  }
+});
 
-  window.addDetailOpp = function(roleIdx) {
-    const input = document.getElementById('oppInput' + roleIdx);
-    const text = input.value.trim();
-    if(!text) return;
-    if(selected.roles && selected.roles[roleIdx]) {
-      selected.roles[roleIdx].opps.push({id: Date.now(), text: text, checked: false});
-      input.value = '';
-      renderDetail();
-      setTimeout(() => document.getElementById('oppInput' + roleIdx).focus(), 0);
-    }
-  };
+document.getElementById('app').addEventListener('input', e => {
+  if (e.target.dataset.a === 'edit-label') {
+    draftLabels[e.target.dataset.col] = e.target.value;
+  }
+});
 
-  window.removeDetailOpp = function(roleIdx, oppIdx) {
-    if(selected.roles && selected.roles[roleIdx] && selected.roles[roleIdx].opps) {
-      selected.roles[roleIdx].opps.splice(oppIdx, 1);
-      renderDetail();
-    }
-  };
-
-  window.toggleDetailOpp = function(roleIdx, oppIdx) {
-    if(selected.roles && selected.roles[roleIdx] && selected.roles[roleIdx].opps) {
-      selected.roles[roleIdx].opps[oppIdx].checked = !selected.roles[roleIdx].opps[oppIdx].checked;
-    }
-  };
-  window.saveEdit = function() {
-    const e = selected;
-    if(e.type === 'weekly') {
-      e.roles = weeklyRoles;
-    }
-    saveEntry(e);
-    showView('detail');
-  };
-  window.deleteEntry = function() {
-    if(confirm('Delete this entry?')) {
-      deleteEntryFromDB(selected.id);
-      showView('list');
-    }
-  };
+// ─── START ────────────────────────────────────────────────────────────────────
+initFirebase();
 </script>
-
 </body>
 </html>
